@@ -10,7 +10,8 @@
 	<artifactId>presenter-account-api</artifactId>
 	<version>unversioned</version>
 	<name>presenter-account-api</name>
-	<description>Handles operations required for presenter account</description>
+	<description>API service will generate and handles the presenter
+		id and auth code of presenter account.</description>
 	<properties>
 		<!-- java properties-->
 		<java.version>21</java.version>
