@@ -182,7 +182,8 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>${jib-maven-plugin.version}</version>
 			</plugin>
-			<!-- Usage: During integration-test and verify phases of the build lifecycle to execute the integration tests of an application	-->
+			<!-- Usage: During integration-test and verify phases of the build lifecycle
+			 to execute the integration tests of an application	-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
