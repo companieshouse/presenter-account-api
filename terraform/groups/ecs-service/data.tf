@@ -17,6 +17,15 @@ data "aws_vpc" "vpc" {
   }
 }
 
+#Get application subnet IDs
+data "aws_subnets" "application" {
+  filter {
+    name   = "tag:Name"
+    values = [local.application_subnet_pattern]
+  }
+}
+
+
 data "aws_ecs_cluster" "ecs_cluster" {
   cluster_name = "${local.name_prefix}-cluster"
 }
@@ -26,7 +35,7 @@ data "aws_iam_role" "ecs_cluster_iam_role" {
 }
 
 data "aws_lb" "identity_lb" {
-  name = "${var.environment}-chs-apichgovuk"
+  name = "${var.environment}-chs-internalapi"
 }
 
 data "aws_lb_listener" "identity_lb_listener" {
