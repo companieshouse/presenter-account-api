@@ -1,7 +1,7 @@
 # presenter-account-api
 
 ### Overview
-API service will generate and handles the presenter id and auth code of presenter account.
+An api used for creating presenter accounts. A presenter account is needed to file via the XMLGW.
 
 ### Requirements
 In order to run the service locally you will need the following:
