@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 variable "environment" {
   type        = string
-  description = "The environment name, defined in envrionments vars."
+  description = "The environment name, defined in environments vars."
 }
 variable "aws_region" {
   default     = "eu-west-2"
@@ -44,7 +44,7 @@ variable "required_memory" {
 variable "use_fargate" {
   type        = bool
   description = "If true, sets the required capabilities for all containers in the task definition to use FARGATE, false uses EC2"
-  default     = false
+  default     = true
 }
 variable "use_capacity_provider" {
   type        = bool
@@ -77,10 +77,6 @@ variable "service_scaleup_schedule" {
 
   default     = ""
 }
-variable "presenter_account_api_version" {
-  type        = string
-  description = "The version of the presenter account api container to run."
-}
 
 # ----------------------------------------------------------------------
 # Cloudwatch alerts
@@ -94,6 +90,20 @@ variable "cloudwatch_alarms_enabled" {
 # ------------------------------------------------------------------------------
 # Service environment variable configs
 # ------------------------------------------------------------------------------
+variable "ssm_version_prefix" {
+  type        = string
+  description = "String to use as a prefix to the names of the variables containing variables and secrets version."
+  default     = "SSM_VERSION_"
+}
+variable "use_set_environment_files" {
+  type        = bool
+  default     = false
+  description = "Toggle default global and shared  environment files"
+}
+variable "presenter_account_api_version" {
+  type        = string
+  description = "The version of the presenter account api container to run."
+}
 variable "log_level" {
   default     = "info"
   type        = string
@@ -106,9 +116,9 @@ variable "human_log" {
   type    = string
   default = "1"
 }
-variable "presenter_account_url" {
-type = string
+variable "account_api_url" {
+  type = string
 }
 variable "developer_hub_url" {
-type = string
+  type = string
 }

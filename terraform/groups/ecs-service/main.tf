@@ -1,4 +1,11 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 terraform {
+  backend "s3" {
+  }
+  required_version = "~> 1.3"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -11,21 +18,13 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.aws_region
-}
-
-terraform {
-  backend "s3" {}
-}
-
 module "secrets" {
   source = "git@github.com:companieshouse/terraform-modules//aws/ecs/secrets?ref=1.0.229"
 
   name_prefix = "${local.service_name}-${var.environment}"
   environment = var.environment
   kms_key_id  = data.aws_kms_key.kms_key.id
-  secrets     = local.parameter_store_secrets
+  secrets     = nonsensitive(local.service_secrets)
 }
 
 module "ecs-service" {
@@ -44,10 +43,6 @@ module "ecs-service" {
   lb_listener_rule_priority = local.lb_listener_rule_priority
   lb_listener_paths         = local.lb_listener_paths
 
-  use_task_container_healthcheck = true
-  healthcheck_path               = local.healthcheck_path
-  healthcheck_matcher            = local.healthcheck_matcher
-
   # Docker container details
   docker_registry   = var.docker_registry
   docker_repo       = local.docker_repo
@@ -55,10 +50,18 @@ module "ecs-service" {
   container_port    = local.container_port
 
   # Service configuration
-  service_name = local.service_name
-  name_prefix  = local.name_prefix
+  service_name              = local.service_name
+  name_prefix               = local.name_prefix
+  use_fargate               = var.use_fargate
+  fargate_subnets           = local.application_subnet_ids
+  service_autoscale_enabled = var.service_autoscale_enabled
 
   # Service Healthcheck configuration
+  use_task_container_healthcheck    = true
+  healthcheck_path                  = local.healthcheck_path
+  healthcheck_matcher               = local.healthcheck_matcher
+  health_check_grace_period_seconds = 300
+  healthcheck_healthy_threshold     = "2"
 
   # Service performance and scaling configs
   desired_task_count                 = var.desired_task_count
@@ -69,15 +72,15 @@ module "ecs-service" {
   service_scaledown_schedule         = var.service_scaledown_schedule
   service_scaleup_schedule           = var.service_scaleup_schedule
   use_capacity_provider              = var.use_capacity_provider
-  use_fargate                        = var.use_fargate
-  fargate_subnets                    = local.application_subnet_ids
 
   # Cloudwatch
   cloudwatch_alarms_enabled = var.cloudwatch_alarms_enabled
 
   # Service environment variable and secret configs
-  task_environment = local.task_environment
-  task_secrets     = local.task_secrets
+  task_environment          = local.task_environment
+  task_secrets              = local.task_secrets
+  app_environment_filename  = local.app_environment_filename
+  use_set_environment_files = local.use_set_environment_files
 
   # Eric variables
   use_eric_reverse_proxy  = local.use_eric_reverse_proxy
@@ -87,5 +90,6 @@ module "ecs-service" {
   eric_memory             = var.required_memory
   eric_environment        = local.eric_environment
   eric_secrets            = local.eric_secrets
+
   depends_on = [module.secrets]
 }
