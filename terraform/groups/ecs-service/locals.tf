@@ -78,7 +78,7 @@ locals {
   eric_environment = [
     { "name": "LOGLEVEL", "value": "${var.log_level}" },
     { "name": "MODE", "value": "api" },
-    { "name": "account_api_url", "value" : "${var.account_api_url}" },
+    { "name": "ACCOUNT_API_URL", "value" : "${var.account_api_url}" },
     { "name": "DEVELOPER_HUB_URL", "value" : "${var.developer_hub_url}" }
   ]
 }
