@@ -1,12 +1,9 @@
 package uk.gov.companieshouse.presenter.account.validation.utils;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 public final class StringValidator {
-
-    private static final int MAX_REGEX_LENGTH = 200;
 
     private static final String VALID_CHARACTERS = "-,.:; 0-9A-Z&@$£¥€'\"«»?!/\\\\()\\[\\]{}<>*="
             + "#%+ÀÁÂÃÄÅĀĂĄÆǼÇĆĈĊČÞĎÐÈÉÊËĒĔĖĘĚĜĞĠĢĤĦÌÍÎÏĨĪĬĮİĴĶĹĻĽĿŁÑŃŅŇŊÒÓÔÕÖØŌŎŐǾŒŔŖŘ"
@@ -23,23 +20,15 @@ public final class StringValidator {
      */
     public static final Optional<String> validateString(final String unvalidatedString, final int maxLength)
             throws IllegalArgumentException {
-        boolean validLength = MAX_REGEX_LENGTH >= maxLength && maxLength > 0;
+        boolean validLength = maxLength > 0;
         boolean validToParse = unvalidatedString != null && !unvalidatedString.isBlank();
 
         if (validLength && validToParse) {
-            final String unvalidStringUTF8 = new String(unvalidatedString.getBytes(), StandardCharsets.UTF_8);
             final String fullRegex = regexForValidString(maxLength);
 
-            if (Pattern.matches(fullRegex, unvalidStringUTF8)) {
-                return Optional.of(unvalidStringUTF8);
+            if (Pattern.matches(fullRegex, unvalidatedString)) {
+                return Optional.of(unvalidatedString);
             }
-        }
-
-        // This is a misuse of method check.
-        if (!validLength) {
-            final String additionalInfo = String.format("String was %d when it should be between 1 and %d", maxLength,
-                    MAX_REGEX_LENGTH);
-            throw new IllegalArgumentException(additionalInfo);
         }
 
         return Optional.empty();

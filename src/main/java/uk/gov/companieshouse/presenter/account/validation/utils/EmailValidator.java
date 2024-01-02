@@ -1,12 +1,9 @@
 package uk.gov.companieshouse.presenter.account.validation.utils;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 public final class EmailValidator {
-
-    private static final int MAX_LENGTH = 80;
 
     private static final int MIN_MAX_LENGTH = 5;
 
@@ -27,23 +24,11 @@ public final class EmailValidator {
      */
     public static final Optional<String> validateEmail(final String unvalidatedEmail, final int maxLength)
             throws IllegalArgumentException {
-        boolean validLength = MAX_LENGTH >= maxLength && maxLength >= MIN_MAX_LENGTH;
+        boolean validLength = maxLength >= MIN_MAX_LENGTH;
         boolean validToParse = unvalidatedEmail != null && !unvalidatedEmail.isBlank();
 
-        if (validLength && validToParse) {
-
-            final String unvalidEmailUTF8 = new String(unvalidatedEmail.getBytes(), StandardCharsets.UTF_8);
-
-            if (Pattern.matches(EMAIL_FORMAT, unvalidEmailUTF8)) {
-                return Optional.of(unvalidEmailUTF8);
-            }
-        }
-
-        // This is a misuse of method check.
-        if (!validLength) {
-            final String additionalInfo = String.format("Email was %d when it should be between %d and %d", maxLength,
-                    MIN_MAX_LENGTH, MAX_LENGTH);
-            throw new IllegalArgumentException(additionalInfo);
+        if (validLength && validToParse && Pattern.matches(EMAIL_FORMAT, unvalidatedEmail)) {
+                return Optional.of(unvalidatedEmail);
         }
 
         return Optional.empty();
