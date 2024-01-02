@@ -106,9 +106,8 @@ public class PresenterAccountAddress {
     }
 
     private String getValidatedLine(String line, int maxLength, String validationExceptionMessage) {
-        Optional<String> validatedLine = StringValidator.validateString(line, maxLength);
-        if (validatedLine.isPresent()) {
-            return validatedLine.get();
+        if (StringValidator.validateString(line, maxLength)) {
+            return line;
         } else {
             throw new ValidationException(validationExceptionMessage);
         }

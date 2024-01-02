@@ -1,7 +1,5 @@
 package uk.gov.companieshouse.presenter.account.model;
 
-import java.util.Optional;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterName;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
@@ -13,14 +11,13 @@ public class PresenterAccountName {
     private static final int MAX_SURNAME_LENGTH = 40;
 
     private String forename;
-    
+
     private String surname;
 
-    public static PresenterAccountName createPresenterAccountName(final PresenterName presenterAccountName){
-        if(presenterAccountName != null){
+    public static PresenterAccountName createPresenterAccountName(final PresenterName presenterAccountName) {
+        if (presenterAccountName != null) {
             return new PresenterAccountName(presenterAccountName.forename(), presenterAccountName.surname());
-        }
-        else {
+        } else {
             throw new ValidationException("Presenter full name is missing");
         }
     }
@@ -31,9 +28,8 @@ public class PresenterAccountName {
     }
 
     private String validateName(final String name, final int maxLength) {
-        Optional<String> optionalName = StringValidator.validateString(name, maxLength);
-        if (optionalName.isPresent()){
-            return optionalName.get();
+        if (StringValidator.validateString(name, maxLength)) {
+            return name;
         } else {
             throw new ValidationException("Invalid Name");
         }
@@ -90,6 +86,5 @@ public class PresenterAccountName {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-    
-    
+
 }

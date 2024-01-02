@@ -1,8 +1,5 @@
 package uk.gov.companieshouse.presenter.account.model;
 
-import java.util.Optional;
-
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -16,7 +13,7 @@ public class PresenterAccountDetails {
 
     private static final int MAX_EMAIL_LENGTH = 80;
     private static final int USER_ID_LENGTH = 40;
-    
+
     @Id
     private String presenterDetailsId;
 
@@ -41,39 +38,35 @@ public class PresenterAccountDetails {
     }
 
     private String validateUserId(final String id) {
-        Optional<String> optionalId = StringValidator.validateString(id, USER_ID_LENGTH);
 
-        if(optionalId.isPresent()){
-            return optionalId.get();
+        if (StringValidator.validateString(id, USER_ID_LENGTH)) {
+            return id;
         } else {
             throw new ValidationException("user id failed validation");
         }
     }
 
     private String validateEmail(final String email) {
-        Optional<String> optionalEmail = EmailValidator.validateEmail(email, MAX_EMAIL_LENGTH);
 
-        if(optionalEmail.isPresent()){
-            return optionalEmail.get();
+        if (EmailValidator.validateEmail(email, MAX_EMAIL_LENGTH)) {
+            return email;
         } else {
             throw new ValidationException("email failed validation");
         }
     }
 
-    private PresenterAccountName validateName(final PresenterAccountName name){
-        if (name != null){
+    private PresenterAccountName validateName(final PresenterAccountName name) {
+        if (name != null) {
             return name;
-        }
-        else {
+        } else {
             throw new ValidationException("presenter name can not be null");
         }
     }
 
-    private PresenterAccountAddress validateAddress(final PresenterAccountAddress address){
-        if (address != null){
+    private PresenterAccountAddress validateAddress(final PresenterAccountAddress address) {
+        if (address != null) {
             return address;
-        }
-        else {
+        } else {
             throw new ValidationException("presenter address can not be null");
         }
     }
@@ -132,5 +125,4 @@ public class PresenterAccountDetails {
         return "PresenterAccountDetails []";
     }
 
-    
 }

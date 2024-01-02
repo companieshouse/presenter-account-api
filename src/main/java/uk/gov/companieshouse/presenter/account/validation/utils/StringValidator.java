@@ -1,6 +1,5 @@
 package uk.gov.companieshouse.presenter.account.validation.utils;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 public final class StringValidator {
@@ -18,20 +17,18 @@ public final class StringValidator {
      *         not.
      * @throws IllegalArgumentException if an invalid max length is entered.
      */
-    public static final Optional<String> validateString(final String unvalidatedString, final int maxLength)
+    public static final boolean validateString(final String unvalidatedString, final int maxLength)
             throws IllegalArgumentException {
-        boolean validLength = maxLength > 0;
-        boolean validToParse = unvalidatedString != null && !unvalidatedString.isBlank();
 
-        if (validLength && validToParse) {
+        if (unvalidatedString != null && !unvalidatedString.isBlank()) {
             final String fullRegex = regexForValidString(maxLength);
 
             if (Pattern.matches(fullRegex, unvalidatedString)) {
-                return Optional.of(unvalidatedString);
+                return true;
             }
         }
 
-        return Optional.empty();
+        return false;
     }
 
     /**
