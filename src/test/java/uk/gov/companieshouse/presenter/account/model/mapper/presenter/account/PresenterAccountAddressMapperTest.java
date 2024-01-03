@@ -1,17 +1,19 @@
 package uk.gov.companieshouse.presenter.account.model.mapper.presenter.account;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountAddressMapper;
 import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterAddress;
 
 class PresenterAccountAddressMapperTest {
-    
+
     PresenterAccountAddressMapper mapper;
 
     private final static String premises = "a";
@@ -20,10 +22,9 @@ class PresenterAccountAddressMapperTest {
     private final static String postcode = "f";
 
     @BeforeEach
-    void before(){
+    void before() {
         mapper = new PresenterAccountAddressMapper();
     }
-
 
     @Test
     @DisplayName("Mapping from presenter address to presenter account address")
@@ -36,6 +37,12 @@ class PresenterAccountAddressMapperTest {
         assertEquals("", accountAddress.getCounty());
         assertEquals(country, accountAddress.getCountry());
         assertEquals(postcode, accountAddress.getPostcode());
+    }
+
+    @Test
+    @DisplayName("Mapping null to presenter account address return ValidationException")
+    void mapNullTest() {
+        assertThrows(ValidationException.class, () -> mapper.map(null));
     }
 
 }

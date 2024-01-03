@@ -11,7 +11,7 @@ import uk.gov.companieshouse.presenter.account.model.request.presenter.account.P
 
 @Service
 public class PresenterAccountService {
-    
+
     private Logger logger;
 
     private Mapper<PresenterAccountDetails, PresenterRequest> detailsMapper;
@@ -22,7 +22,7 @@ public class PresenterAccountService {
         this.detailsMapper = detailsMapper;
     }
 
-    public String createPresenterAccount(PresenterRequest presenterRequest){
+    public String createPresenterAccount(PresenterRequest presenterRequest) {
         PresenterAccountDetails presenterDetails = detailsMapper.map(presenterRequest);
 
         // PLEASE REMOVE WHEN DB IS CONNECTED
