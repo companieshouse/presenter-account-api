@@ -1,11 +1,8 @@
 package uk.gov.companieshouse.presenter.account.model;
 
-import java.util.Optional;
-
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterAddress;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
 
 public class PresenterAccountAddress {
@@ -35,19 +32,6 @@ public class PresenterAccountAddress {
     @Field("postCode")
     private final String postcode;
 
-    public static PresenterAccountAddress createPresenterAccountAddress(PresenterAddress presenterAddress) {
-        if (presenterAddress != null) {
-            return new PresenterAccountAddress(presenterAddress.premises(),
-                    presenterAddress.addressLine1(),
-                    presenterAddress.addressLine2(),
-                    presenterAddress.county(),
-                    presenterAddress.country(),
-                    presenterAddress.postcode());
-        } else {
-            throw new ValidationException("Presenter address info is missing");
-        }
-    }
-
     public PresenterAccountAddress(String premises, String addressLine1, String addressLine2, String county,
             String country,
             String postcode) {
@@ -60,49 +44,35 @@ public class PresenterAccountAddress {
     }
 
     private String validatePremises(String premises) {
-        final int maxLength = PREMISES_MAX_LENGTH;
-        final String exceptionMessage = "premises failed validation";
-        return getValidatedLine(premises, maxLength, exceptionMessage);
+        return getValidatedLine(premises, PREMISES_MAX_LENGTH, "premises failed validation");
     }
 
     private String validateAddressLine1(String line) {
-        final int maxLength = LINE_1_MAX_LENGTH;
-        final String exceptionMessage = "address line 1 failed validation";
-        return getValidatedLine(line, maxLength, exceptionMessage);
+        return getValidatedLine(line, LINE_1_MAX_LENGTH, "address line 1 failed validation");
     }
 
     private String validateAddressLine2(String line) {
-        final int maxLength = LINE_2_MAX_LENGTH;
-        final String exceptionMessage = "address line 2 failed validation";
-
         if (line == null || line.isBlank()) {
             return "";
+        } else {
+            return getValidatedLine(line, LINE_2_MAX_LENGTH, "address line 2 failed validation");
         }
-
-        return getValidatedLine(line, maxLength, exceptionMessage);
     }
 
     private String validatedCounty(String line) {
-        final int maxLength = COUNTY_MAX_LENGTH;
-        final String exceptionMessage = "county failed validation";
-
         if (line == null || line.isBlank()) {
             return "";
+        } else {
+            return getValidatedLine(line, COUNTY_MAX_LENGTH, "county failed validation");
         }
-
-        return getValidatedLine(line, maxLength, exceptionMessage);
     }
 
     private String validateCountry(String line) {
-        final int maxLength = COUNTRY_MAX_LENGTH;
-        final String exceptionMessage = "country failed validation";
-        return getValidatedLine(line, maxLength, exceptionMessage);
+        return getValidatedLine(line, COUNTRY_MAX_LENGTH, "country failed validation");
     }
 
     private String validatePostcode(String line) {
-        final int maxLength = POSTCODE_MAX_LENGTH;
-        final String exceptionMessage = "postcode failed validation";
-        return getValidatedLine(line, maxLength, exceptionMessage);
+        return getValidatedLine(line, POSTCODE_MAX_LENGTH, "postcode failed validation");
     }
 
     private String getValidatedLine(String line, int maxLength, String validationExceptionMessage) {

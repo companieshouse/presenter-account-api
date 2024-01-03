@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.presenter.account.model;
 
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterName;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
 
 public class PresenterAccountName {
@@ -13,14 +12,6 @@ public class PresenterAccountName {
     private String forename;
 
     private String surname;
-
-    public static PresenterAccountName createPresenterAccountName(final PresenterName presenterAccountName) {
-        if (presenterAccountName != null) {
-            return new PresenterAccountName(presenterAccountName.forename(), presenterAccountName.surname());
-        } else {
-            throw new ValidationException("Presenter full name is missing");
-        }
-    }
 
     public PresenterAccountName(final String forename, final String surname) {
         this.forename = validateName(forename, MAX_FORENAME_LENGTH);
