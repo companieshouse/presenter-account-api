@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterRequest;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -33,7 +34,7 @@ class PresenterAccountControllerTest {
     PresenterAccountService presenterAccountService;
 
     @Mock
-    PresenterRequest presenterRequest;
+    PresenterAccountDetailsRequest presenterAccountDetailsRequest;
 
     @Mock
     Logger logger;
@@ -54,12 +55,12 @@ class PresenterAccountControllerTest {
     @DisplayName("Return 201 when valid presenter details is submitted")
     void testCreatePresenterAccountSuccessResponse() {
         final String id = "id";
-        when(presenterAccountService.createPresenterAccount(presenterRequest)).thenReturn(id);
+        when(presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest)).thenReturn(id);
 
-        var response = presenterAccountController.createPresenterAccount(presenterRequest);
+        var response = presenterAccountController.createPresenterAccount(presenterAccountDetailsRequest);
         var header = response.getHeaders().getFirst("Location");
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
-        assertTrue(header.contains(PRESENTER_ACCOUNT + id));
+        Assertions.assertTrue(header != null && header.contains(PRESENTER_ACCOUNT + id));
     }
 
     // NOT TESTING MISSING NON-OPTIONAL PARAMETER AS THEY ARE CATCH BY MODEL.

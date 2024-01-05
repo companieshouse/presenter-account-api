@@ -1,17 +1,17 @@
-package uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper;
+package uk.gov.companieshouse.presenter.account.mapper.request;
 
 import org.springframework.stereotype.Component;
 
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.base.Mapper;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterAddress;
+import uk.gov.companieshouse.presenter.account.mapper.Mapper;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
 
 @Component
-public class PresenterAccountAddressMapper implements Mapper<PresenterAccountAddress, PresenterAddress> {
+public class PresenterAccountAddressMapper implements Mapper<PresenterAccountAddress, PresenterAddressRequest> {
 
     @Override
-    public PresenterAccountAddress map(PresenterAddress value) {
+    public PresenterAccountAddress map(PresenterAddressRequest value) {
         if (value != null) {
             return new PresenterAccountAddress(value.premises(),
                     value.addressLine1(),
