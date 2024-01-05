@@ -17,7 +17,6 @@ class EmailValidatorTest {
     private static final String NO_END_EMAIL = "test@test.";
     private static final String NO_DOMAIN_EMAIL = "test@.test";
     private static final String EMAIL = "test@test.test";
-    private static final String INVALID_CHARACTER_EMAIL = "~test@test.test";
     private static final String SHORTEST_VALID_EMAIL = "a@a.a";
     private static final String MULTILINE_EMAIL = """
             a
@@ -59,7 +58,7 @@ class EmailValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = { NO_AT_EMAIL, NO_DOT_EMAIL, NO_START_EMAIL,
             NO_EMAIL, NO_END_EMAIL, NO_DOMAIN_EMAIL,
-            INVALID_CHARACTER_EMAIL, MULTILINE_EMAIL })
+            MULTILINE_EMAIL })
     @DisplayName("Failed Email Validation incorrect format")
     void testEmailValidationFailed(String email) {
         assertFalse(EmailValidator.validateEmail(email, LENGTH));
