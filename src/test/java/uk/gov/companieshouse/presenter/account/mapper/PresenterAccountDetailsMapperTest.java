@@ -51,8 +51,9 @@ class PresenterAccountDetailsMapperTest {
         when(nameMapper.map(name)).thenReturn(mock(PresenterAccountName.class));
         when(addressMapper.map(address)).thenReturn(mock(PresenterAccountAddress.class));
 
-//        PresenterAccountDetails details = mapper.map(request);
         // TODO: complete this test
+        @SuppressWarnings("unused") PresenterAccountDetails details = mapper.map(request);
+
     }
 
     @Test
