@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.presenter.account.security;
+package uk.gov.companieshouse.presenter.account.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
