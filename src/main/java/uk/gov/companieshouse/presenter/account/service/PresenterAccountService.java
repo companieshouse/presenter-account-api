@@ -8,6 +8,9 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountDetailsMapper;
 import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.base.Mapper;
 import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterRequest;
+import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
+
+import java.util.UUID;
 
 @Service
 public class PresenterAccountService {
@@ -16,20 +19,21 @@ public class PresenterAccountService {
 
     private Mapper<PresenterAccountDetails, PresenterRequest> detailsMapper;
 
+    private PresenterAccountRepository presenterAccountRepository;
+
     @Autowired
-    public PresenterAccountService(Logger logger, PresenterAccountDetailsMapper detailsMapper) {
+    public PresenterAccountService(Logger logger, PresenterAccountDetailsMapper detailsMapper, PresenterAccountRepository presenterAccountRepository) {
         this.logger = logger;
         this.detailsMapper = detailsMapper;
+        this.presenterAccountRepository = presenterAccountRepository;
     }
 
     public String createPresenterAccount(PresenterRequest presenterRequest) {
         PresenterAccountDetails presenterDetails = detailsMapper.map(presenterRequest);
-
+        presenterDetails.setPresenterDetailsId(UUID.randomUUID().toString());
+        presenterAccountRepository.save(presenterDetails);
         // PLEASE REMOVE WHEN DB IS CONNECTED
-        logger.info("Presenter Account has been added to the DB.");
-        // Add to db
-        // Once db is in place a real id can be returned.
-        return "0000000000-0000-0000-0000-00000000";
+        logger.info("Presenter account details has been added to the database.");
+        return presenterDetails.getPresenterDetailsId();
     }
-
 }
