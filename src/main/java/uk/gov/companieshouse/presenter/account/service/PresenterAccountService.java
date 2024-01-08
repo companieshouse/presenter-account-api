@@ -32,7 +32,6 @@ public class PresenterAccountService {
         PresenterAccountDetails presenterDetails = detailsMapper.map(presenterRequest);
         presenterDetails.setPresenterDetailsId(UUID.randomUUID().toString());
         presenterAccountRepository.save(presenterDetails);
-        // PLEASE REMOVE WHEN DB IS CONNECTED
         logger.info("Presenter account details has been added to the database.");
         return presenterDetails.getPresenterDetailsId();
     }
