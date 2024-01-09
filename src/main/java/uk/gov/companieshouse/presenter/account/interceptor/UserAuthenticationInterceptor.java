@@ -54,12 +54,10 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
             return true;
         }
 
-        final boolean validIdentity = validateIdentity(request) && validateIdentityType(request);
-        final boolean validPermission = validateUserPresenterPermission(request);
-        if (!validIdentity) {
+        if (!(validateIdentity(request) && validateIdentityType(request))) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
-        } else if (!validPermission) {
+        } else if (!validateUserPresenterPermission(request)) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         } else {
@@ -68,7 +66,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
 
     }
 
-    boolean validateIdentity(@NotNull HttpServletRequest request) {
+    private boolean validateIdentity(@NotNull HttpServletRequest request) {
         final String identity = authHelper.getAuthorisedIdentity(request);
 
         if (identity == null || identity.isEmpty()) {
@@ -79,7 +77,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
         }
     }
 
-    boolean validateIdentityType(@NotNull HttpServletRequest request) {
+    private boolean validateIdentityType(@NotNull HttpServletRequest request) {
         final String identityType = authHelper.getAuthorisedIdentityType(request);
 
         if (identityType == null || identityType.isEmpty()) {
@@ -87,9 +85,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
             return false;
         }
 
-        boolean isOauth2 = authHelper.isOauth2IdentityType(identityType);
-
-        if (isOauth2) {
+        if (authHelper.isOauth2IdentityType(identityType)) {
             return validateOAuth2Identity(request);
         } else {
             logger.debugRequest(request, "UserAuthenticationInterceptor error: identity type not oauth2",
@@ -98,7 +94,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
         }
     }
 
-    boolean validateOAuth2Identity(@NotNull HttpServletRequest request) {
+    private boolean validateOAuth2Identity(@NotNull HttpServletRequest request) {
         final String authorisedUser = authHelper.getAuthorisedUser(request);
 
         if (authorisedUser == null || authorisedUser.trim().length() == 0) {
@@ -111,7 +107,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
         return true;
     }
 
-    boolean validateUserPresenterPermission(@NotNull HttpServletRequest request) {
+    private boolean validateUserPresenterPermission(@NotNull HttpServletRequest request) {
         TokenPermissions tokenPermissions = authHelper.getTokenPermissions(request);
 
         boolean validPermission = authHelper.validTokenPermissions(tokenPermissions, USER_PRESENTER, CREATE);
