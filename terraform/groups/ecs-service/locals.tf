@@ -20,8 +20,8 @@ locals {
   vpc_name                   = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
 
   # Enable Eric
-  use_eric_reverse_proxy  = true
-  eric_port               = "3001" # container port plus 1
+  use_eric_reverse_proxy    = true
+  eric_port                 = "3001" # container port plus 1
   eric_environment_filename = "eric.env"
 
   # create a map of secret name => secret arn to pass into ecs service module
