@@ -20,9 +20,9 @@ locals {
   vpc_name                   = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
 
   # Enable Eric
-  use_eric_reverse_proxy  = true
-  eric_port               = "3001" # container port plus 1
-  eric_version            = "latest"
+  use_eric_reverse_proxy    = true
+  eric_port                 = "3001" # container port plus 1
+  eric_environment_filename = "eric.env"
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
@@ -68,17 +68,9 @@ locals {
 
   task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map)
 
-  # Eric secrets config
+  # get eric secrets from global secrets map
   eric_secrets = [
-    { "name" : "AES256_KEY" , "valueFrom" : "${local.service_secrets_arn_map.aes256_key}" },
-    { "name" : "API_KEY" , "valueFrom" : "${local.service_secrets_arn_map.api_key}" },
-    { "name" : "CACHE_URL" , "valueFrom" : "${local.service_secrets_arn_map.cache_url}" }
-  ]
-
-  eric_environment = [
-    { "name": "LOGLEVEL", "value": "${var.log_level}" },
-    { "name": "MODE", "value": "api" },
-    { "name": "ACCOUNT_API_URL", "value" : "${var.account_api_url}" },
-    { "name": "DEVELOPER_HUB_URL", "value" : "${var.developer_hub_url}" }
+    { "name": "API_KEY", "valueFrom": local.global_secrets_arn_map.eric_api_key },
+    { "name": "AES256_KEY", "valueFrom": local.global_secrets_arn_map.eric_aes256_key }
   ]
 }
