@@ -26,6 +26,7 @@ public class PresenterAccountServiceTest {
     private static final PresenterAddress ADDRESS = new PresenterAddress("a", "b", "c", "d", "e", "f");
 
     PresenterAccountService presenterAccountService;
+
     @Mock
     Logger logger;
 
@@ -39,6 +40,7 @@ public class PresenterAccountServiceTest {
     void setUp() {
         presenterAccountService = new PresenterAccountService(logger, detailsMapper, presenterAccountRepository);
     }
+
     @Test
     @DisplayName("Create presenter account details in mongo db")
     void testCreatePresenterAccount() {
