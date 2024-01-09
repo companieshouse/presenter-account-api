@@ -75,7 +75,6 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
             logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised identity", null);
             return false;
         } else {
-            request.setAttribute("user_id", identity);
             return true;
         }
     }
@@ -129,7 +128,6 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
             Exception ex) {
         // cleanup request attributes to ensure user details are never leaked
         // into another request
-        request.setAttribute("user_id", null);
         request.setAttribute("user_email", null);
     }
 
