@@ -3,7 +3,6 @@ package uk.gov.companieshouse.presenter.account.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.validation.utils.EmailValidator;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
@@ -20,13 +19,13 @@ public class PresenterAccountDetails {
     @Field("chsUserId")
     private String userId;
 
-    @Field
+    @Field("email")
     private String email;
 
-    @Field
+    @Field("name")
     private PresenterAccountName name;
 
-    @Field()
+    @Field("address")
     private PresenterAccountAddress address;
 
     public PresenterAccountDetails(final String userId, final String email, final PresenterAccountName name,
@@ -69,6 +68,46 @@ public class PresenterAccountDetails {
         } else {
             throw new ValidationException("presenter address can not be null");
         }
+    }
+
+    public String getPresenterDetailsId() {
+        return presenterDetailsId;
+    }
+
+    public void setPresenterDetailsId(String presenterDetailsId) {
+        this.presenterDetailsId = presenterDetailsId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public PresenterAccountName getName() {
+        return name;
+    }
+
+    public void setName(PresenterAccountName name) {
+        this.name = name;
+    }
+
+    public PresenterAccountAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(PresenterAccountAddress address) {
+        this.address = address;
     }
 
     @Override

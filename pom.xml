@@ -40,7 +40,7 @@
 		<structured-logging.version>3.0.1</structured-logging.version>
 		<api-security-java-version>2.0.1</api-security-java-version>
 		<api-sdk-manager-java-library.version>3.0.2</api-sdk-manager-java-library.version>
-		<private-api-sdk-java.version>4.0.5</private-api-sdk-java.version>
+		<private-api-sdk-java.version>unversioned</private-api-sdk-java.version>
 
 	</properties>
 	<dependencyManagement>
@@ -197,17 +197,27 @@
 	</dependencies>
 
 	<build>
-		<plugins>
-			<!-- Usage: packages executable jar or war -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring-boot-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+            <!-- Usage: packages executable jar or war -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -264,11 +274,17 @@
 				<version>${sonar-maven-plugin.version}</version>
 			</plugin>
 			<!-- Usage: Building Docker and OCI images-->
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>${jib-maven-plugin.version}</version>
-			</plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:21-jre</image>
+                    </from>
+                    <!-- Additional configuration options -->
+                </configuration>
+            </plugin>
 			<!-- Usage: During integration-test and verify phases of the build lifecycle
 			 to execute the integration tests of an application	-->
 			<plugin>

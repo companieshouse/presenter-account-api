@@ -1,21 +1,23 @@
 package uk.gov.companieshouse.presenter.account.controller;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterRequest;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
+
+import java.net.URI;
+import java.util.Optional;
 
 
 @Controller
@@ -37,10 +39,18 @@ public class PresenterAccountController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> createPresenterAccount(@RequestBody PresenterRequest presenterRequest){
-        String id = presenterAccountService.createPresenterAccount(presenterRequest);
+    public ResponseEntity<String> createPresenterAccount(@RequestBody PresenterAccountDetailsRequest presenterAccountDetailsRequest) {
+        String id = presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest);
         final String uri = "/presenter-account/" + id;
         return ResponseEntity.created(URI.create(uri)).build();
+    }
+
+    @GetMapping("/{presenterAccountId}")
+    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(@PathVariable("presenterAccountId") String presenterAccountId) {
+        Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService.getPresenterAccount(presenterAccountId);
+        return presenterAccountDetailsOptional
+                .map(presenterAccountDetails -> ResponseEntity.ok().body(presenterAccountDetails))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -49,7 +59,7 @@ public class PresenterAccountController {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ResponseEntity<String> httpMessageNotReadableException(final HttpMessageNotReadableException e){
+    ResponseEntity<String> httpMessageNotReadableException(final HttpMessageNotReadableException e) {
         return ResponseEntity.badRequest().body("Input format issue.");
 
     }
