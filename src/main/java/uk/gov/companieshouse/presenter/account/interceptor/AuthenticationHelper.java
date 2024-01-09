@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.presenter.account.interceptor;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,7 +66,19 @@ public class AuthenticationHelper {
     }
 
     boolean validTokenPermissions(TokenPermissions tokenPermissions, Key key, String permission) {
-        return tokenPermissions.hasPermission(key, permission);
+        if (tokenPermissions != null) {
+            return tokenPermissions.hasPermission(key, permission);
+        } else {
+            return false;
+        }
+    }
+
+    String getRequestMethod(HttpServletRequest request) {
+        return request == null ? null : request.getMethod();
+    }
+
+    boolean isGetMethod(String method) {
+        return HttpMethod.GET.name().equals(method);
     }
 
     private String getRequestHeader(HttpServletRequest request, String header) {

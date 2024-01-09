@@ -3,6 +3,7 @@ package uk.gov.companieshouse.presenter.account.interceptor;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -207,6 +208,46 @@ class UserAuthenticationInterceptorTest {
     @Test
     void getTokenPermissionsNoToken() {
         assertNull(testHelper.getTokenPermissions(request));
+    }
+
+    @Test
+    void getRequestMethod() {
+
+        when(request.getMethod()).thenReturn("GET");
+        
+        assertEquals("GET", testHelper.getRequestMethod(request));
+    }
+
+
+    @Test
+    void getRequestMethodPost() {
+
+        when(request.getMethod()).thenReturn("POST");
+
+        assertEquals("POST", testHelper.getRequestMethod(request));
+    }
+
+    @Test
+    void getRequestMethodRequestIsNull() {
+        assertEquals(null, testHelper.getRequestMethod(null));
+    }
+
+    @Test
+    void isGetMethod() {
+
+        assertTrue(testHelper.isGetMethod("GET"));
+    }
+
+
+    @Test
+    void isGetMethodButRequestIsPost() {
+
+        assertFalse(testHelper.isGetMethod("POST"));
+    }
+
+    @Test
+    void isGetMethodNoRequest() {
+        assertFalse(testHelper.isGetMethod(null));
     }
 
 }

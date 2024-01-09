@@ -1,7 +1,5 @@
 package uk.gov.companieshouse.presenter.account.interceptor;
 
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +12,6 @@ import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.util.RequestLogger;
 
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
-
 
 /**
  * Checks each request to the service to verify that the user is authorised to
@@ -51,7 +48,12 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
         final String identityType = authHelper.getAuthorisedIdentityType(request);
         boolean validIdentity = false;
         boolean validPermission = false;
-        boolean shouldContinue = false;
+        final String requestMethod = authHelper.getRequestMethod(request);
+        boolean isGetRequest = authHelper.isGetMethod(requestMethod);
+
+        if (requestMethod == null || requestMethod.isEmpty()) {
+            logger.debugRequest(request, "UserAuthenticationInterceptor error: no request method", null);
+        }
 
         if (identityType == null || identityType.isEmpty()) {
             logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised identity type", null);
@@ -70,19 +72,23 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
                     null);
         }
 
-        validPermission = validateUserPresenterPermission(request);
-
-        if (!validPermission) {
-            logger.debugRequest(request, "UserAuthenticationInterceptor error: required permission are not set.", null);
+        if (isGetRequest) {
+            logger.debugRequest(request, "UserAuthenticationInterceptor info: Request is GET - ignore permissions.",
+                    null);
+        } else {
+            validPermission = validateUserPresenterPermission(request);
         }
 
-        shouldContinue = Stream.of(validIdentity, validPermission).allMatch(validValue -> validValue);
-
-        if (!shouldContinue) {
+        if (!validIdentity) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        } else if (!isGetRequest && !validPermission) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return false;
+        } else {
+            return true;
         }
 
-        return shouldContinue;
     }
 
     private boolean validateOAuth2Identity(HttpServletRequest request, String identity) {
@@ -114,11 +120,14 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
 
     private boolean validateUserPresenterPermission(HttpServletRequest request) {
         TokenPermissions tokenPermissions = authHelper.getTokenPermissions(request);
-        if (tokenPermissions != null) {
-            return authHelper.validTokenPermissions(tokenPermissions, USER_PRESENTER, CREATE);
-        } else {
-            return false;
+
+        boolean validPermission = authHelper.validTokenPermissions(tokenPermissions, USER_PRESENTER, CREATE);
+
+        if (!validPermission) {
+            logger.debugRequest(request, "UserAuthenticationInterceptor error: required permission are not set.", null);
         }
+
+        return validPermission;
     }
 
     @Override
