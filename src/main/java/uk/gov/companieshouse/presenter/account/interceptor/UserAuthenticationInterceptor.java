@@ -47,8 +47,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
             Object handler) {
 
         final String requestMethod = authHelper.getRequestMethod(request);
-        final boolean isGetRequest = authHelper.isGetMethod(requestMethod);
-        if (isGetRequest) {
+        if (authHelper.isGetMethod(requestMethod)) {
             logger.debugRequest(request, "UserAuthenticationInterceptor info: Request is GET - ignore permissions.",
                     null);
             return true;
