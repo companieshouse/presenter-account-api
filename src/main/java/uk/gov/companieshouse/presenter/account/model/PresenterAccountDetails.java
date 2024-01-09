@@ -29,6 +29,18 @@ public class PresenterAccountDetails {
     @Field()
     private PresenterAccountAddress address;
 
+    public String getPresenterDetailsId() {
+        return presenterDetailsId;
+    }
+
+    public void setPresenterDetailsId(String presenterDetailsId) {
+        this.presenterDetailsId = presenterDetailsId;
+    }
+
+    public PresenterAccountDetails(){
+
+    }
+
     public PresenterAccountDetails(final String userId, final String email, final PresenterAccountName name,
             final PresenterAccountAddress address) {
         this.userId = validateUserId(userId);
