@@ -12,8 +12,6 @@ public class AuthenticationHelper {
     public static final String OAUTH2_IDENTITY_TYPE = "oauth2";
 
     public static final int USER_EMAIL_INDEX = 0;
-    public static final int USER_FORENAME_INDEX = 1;
-    public static final int USER_SURNAME_INDEX = 2;
 
     private static final String ERIC_IDENTITY = "ERIC-Identity";
     private static final String ERIC_IDENTITY_TYPE = "ERIC-Identity-Type";
@@ -49,14 +47,6 @@ public class AuthenticationHelper {
         }
     }
 
-    public String getAuthorisedUserForename(HttpServletRequest request) {
-        return getUserAttribute(request, USER_FORENAME_INDEX);
-    }
-
-    public String getAuthorisedUserSurname(HttpServletRequest request) {
-        return getUserAttribute(request, USER_SURNAME_INDEX);
-    }
-
     public TokenPermissions getTokenPermissions(HttpServletRequest request) {
         if (request.getAttribute(TOKEN_PERMISSIONS_ATTRIBUTE) instanceof TokenPermissions tokenPermissions) {
             return tokenPermissions;
@@ -83,22 +73,6 @@ public class AuthenticationHelper {
 
     private String getRequestHeader(HttpServletRequest request, String header) {
         return request == null ? null : request.getHeader(header);
-    }
-
-    private String getUserAttribute(final HttpServletRequest request, final int userAttributeIndex) {
-        final String authorisedUser = getAuthorisedUser(request);
-
-        if (authorisedUser == null || authorisedUser.trim().length() == 0) {
-            return null;
-        } else {
-            final String[] details = authorisedUser.split(";");
-
-            return indexExists(details, userAttributeIndex) ? getValue(details[userAttributeIndex].trim()) : null;
-        }
-    }
-
-    private String getValue(String value) {
-        return indexExists(value.split("="), 1) ? value.split("=")[1] : null;
     }
 
     private boolean indexExists(final String[] list, final int index) {

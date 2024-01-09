@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import uk.gov.companieshouse.api.util.security.Permission.Key;
 import uk.gov.companieshouse.api.util.security.Permission.Value;
 import uk.gov.companieshouse.api.util.security.TokenPermissions;
@@ -45,44 +46,20 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) {
 
-        final String identityType = authHelper.getAuthorisedIdentityType(request);
-        boolean validIdentity = false;
-        boolean validPermission = false;
         final String requestMethod = authHelper.getRequestMethod(request);
-        boolean isGetRequest = authHelper.isGetMethod(requestMethod);
-
-        if (requestMethod == null || requestMethod.isEmpty()) {
-            logger.debugRequest(request, "UserAuthenticationInterceptor error: no request method", null);
-        }
-
-        if (identityType == null || identityType.isEmpty()) {
-            logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised identity type", null);
-        }
-
-        final String identity = authHelper.getAuthorisedIdentity(request);
-
-        if (identity == null || identity.isEmpty()) {
-            logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised identity", null);
-        }
-
-        if (authHelper.isOauth2IdentityType(identityType)) {
-            validIdentity = validateOAuth2Identity(request, identity);
-        } else {
-            logger.debugRequest(request, "UserAuthenticationInterceptor error: identity type not oauth2",
-                    null);
-        }
-
+        final boolean isGetRequest = authHelper.isGetMethod(requestMethod);
         if (isGetRequest) {
             logger.debugRequest(request, "UserAuthenticationInterceptor info: Request is GET - ignore permissions.",
                     null);
-        } else {
-            validPermission = validateUserPresenterPermission(request);
+            return true;
         }
 
+        final boolean validIdentity = validateIdentity(request) && validateIdentityType(request);
+        final boolean validPermission = validateUserPresenterPermission(request);
         if (!validIdentity) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
-        } else if (!isGetRequest && !validPermission) {
+        } else if (!validPermission) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         } else {
@@ -91,34 +68,51 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
 
     }
 
-    private boolean validateOAuth2Identity(HttpServletRequest request, String identity) {
+    boolean validateIdentity(@NotNull HttpServletRequest request) {
+        final String identity = authHelper.getAuthorisedIdentity(request);
 
-        request.setAttribute("user_id", identity);
+        if (identity == null || identity.isEmpty()) {
+            logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised identity", null);
+            return false;
+        } else {
+            request.setAttribute("user_id", identity);
+            return true;
+        }
+    }
 
+    boolean validateIdentityType(@NotNull HttpServletRequest request) {
+        final String identityType = authHelper.getAuthorisedIdentityType(request);
+
+        if (identityType == null || identityType.isEmpty()) {
+            logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised identity type", null);
+            return false;
+        }
+
+        boolean isOauth2 = authHelper.isOauth2IdentityType(identityType);
+
+        if (isOauth2) {
+            return validateOAuth2Identity(request);
+        } else {
+            logger.debugRequest(request, "UserAuthenticationInterceptor error: identity type not oauth2",
+                    null);
+            return false;
+        }
+    }
+
+    boolean validateOAuth2Identity(@NotNull HttpServletRequest request) {
         final String authorisedUser = authHelper.getAuthorisedUser(request);
+
         if (authorisedUser == null || authorisedUser.trim().length() == 0) {
             logger.debugRequest(request, "UserAuthenticationInterceptor error: no authorised user", null);
 
             return false;
         }
 
-        // decode user details and set on session
         request.setAttribute("user_email", authHelper.getAuthorisedUserEmail(request));
-
-        String userForename = authHelper.getAuthorisedUserForename(request);
-        String userSurname = authHelper.getAuthorisedUserSurname(request);
-
-        if (userForename != null) {
-            request.setAttribute("user_forename", userForename);
-        }
-        if (userSurname != null) {
-            request.setAttribute("user_surname", userSurname);
-        }
-
         return true;
     }
 
-    private boolean validateUserPresenterPermission(HttpServletRequest request) {
+    boolean validateUserPresenterPermission(@NotNull HttpServletRequest request) {
         TokenPermissions tokenPermissions = authHelper.getTokenPermissions(request);
 
         boolean validPermission = authHelper.validTokenPermissions(tokenPermissions, USER_PRESENTER, CREATE);
@@ -137,8 +131,6 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
         // into another request
         request.setAttribute("user_id", null);
         request.setAttribute("user_email", null);
-        request.setAttribute("user_forename", null);
-        request.setAttribute("user_surname", null);
     }
 
 }
