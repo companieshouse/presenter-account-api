@@ -1,5 +1,7 @@
 package uk.gov.companieshouse.presenter.account.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +11,6 @@ import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.ma
 import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.base.Mapper;
 import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterRequest;
 import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
-
-import java.util.UUID;
 
 @Service
 public class PresenterAccountService {
@@ -22,7 +22,8 @@ public class PresenterAccountService {
     private PresenterAccountRepository presenterAccountRepository;
 
     @Autowired
-    public PresenterAccountService(Logger logger, PresenterAccountDetailsMapper detailsMapper, PresenterAccountRepository presenterAccountRepository) {
+    public PresenterAccountService(Logger logger, PresenterAccountDetailsMapper detailsMapper,
+                                   PresenterAccountRepository presenterAccountRepository) {
         this.logger = logger;
         this.detailsMapper = detailsMapper;
         this.presenterAccountRepository = presenterAccountRepository;

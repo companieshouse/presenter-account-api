@@ -37,6 +37,10 @@ public class PresenterAccountDetails {
         this.presenterDetailsId = presenterDetailsId;
     }
 
+    public PresenterAccountDetails(){
+
+    }
+
     public PresenterAccountDetails(final String userId, final String email, final PresenterAccountName name,
             final PresenterAccountAddress address) {
         this.userId = validateUserId(userId);
