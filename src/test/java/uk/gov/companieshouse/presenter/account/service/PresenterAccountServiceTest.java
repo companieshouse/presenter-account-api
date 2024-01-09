@@ -1,6 +1,5 @@
 package uk.gov.companieshouse.presenter.account.service;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
