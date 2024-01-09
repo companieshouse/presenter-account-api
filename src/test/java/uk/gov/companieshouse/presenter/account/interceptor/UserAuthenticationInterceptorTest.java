@@ -1,6 +1,5 @@
 package uk.gov.companieshouse.presenter.account.interceptor;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.verify;
@@ -57,14 +56,14 @@ class UserAuthenticationInterceptorTest {
         when(helper.getAuthorisedUser(request)).thenReturn(USER);
         when(helper.getTokenPermissions(request)).thenReturn(token);
         when(helper.validTokenPermissions(token, Key.USER_PRESENTER, Value.CREATE)).thenReturn(true);
-        
+
         assertTrue(interceptor.preHandle(request, response, null));
     }
 
     @Test
     void preHandleNullIndentity() {
         when(helper.getAuthorisedIdentity(request)).thenReturn(null);
-        
+
         assertFalse(interceptor.preHandle(request, response, null));
         verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
@@ -73,7 +72,7 @@ class UserAuthenticationInterceptorTest {
     void preHandleNullIdentityType() {
         when(helper.getAuthorisedIdentity(request)).thenReturn(IDENTITY);
         when(helper.getAuthorisedIdentityType(request)).thenReturn(null);
-        
+
         assertFalse(interceptor.preHandle(request, response, null));
         verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
@@ -104,7 +103,7 @@ class UserAuthenticationInterceptorTest {
         when(helper.getAuthorisedIdentityType(request)).thenReturn(OAUTH2);
         when(helper.isOauth2IdentityType(OAUTH2)).thenReturn(true);
         when(helper.getAuthorisedUser(request)).thenReturn(null);
-        
+
         assertFalse(interceptor.preHandle(request, response, null));
         verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
@@ -117,7 +116,7 @@ class UserAuthenticationInterceptorTest {
         when(helper.getAuthorisedUser(request)).thenReturn(USER);
         when(helper.getTokenPermissions(request)).thenReturn(token);
         when(helper.validTokenPermissions(token, Key.USER_PRESENTER, Value.CREATE)).thenReturn(false);
-        
+
         assertFalse(interceptor.preHandle(request, response, null));
         verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
@@ -130,7 +129,7 @@ class UserAuthenticationInterceptorTest {
         when(helper.getAuthorisedUser(request)).thenReturn(USER);
         when(helper.getTokenPermissions(request)).thenReturn(null);
         when(helper.validTokenPermissions(null, Key.USER_PRESENTER, Value.CREATE)).thenReturn(false);
-        
+
         assertFalse(interceptor.preHandle(request, response, null));
         verify(response).setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
