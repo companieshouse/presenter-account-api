@@ -28,8 +28,12 @@ public class PresenterAccountDetails {
     @Field("address")
     private PresenterAccountAddress address;
 
+    public PresenterAccountDetails() {
+
+    }
+
     public PresenterAccountDetails(final String userId, final String email, final PresenterAccountName name,
-            final PresenterAccountAddress address) {
+                                   final PresenterAccountAddress address) {
         this.userId = validateUserId(userId);
         this.email = validateEmail(email);
         this.name = validateName(name);

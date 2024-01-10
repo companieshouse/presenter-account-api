@@ -4,13 +4,7 @@ import java.util.regex.Pattern;
 
 public final class EmailValidator {
 
-    private static final String VALID_CHARACTERS = "-,.:; 0-9A-Z&@$£¥€'\"«»?!/\\\\()\\[\\]{}<>*="
-            + "#%+ÀÁÂÃÄÅĀĂĄÆǼÇĆĈĊČÞĎÐÈÉÊËĒĔĖĘĚĜĞĠĢĤĦÌÍÎÏĨĪĬĮİĴĶĹĻĽĿŁÑŃŅŇŊÒÓÔÕÖØŌŎŐǾŒŔŖŘ"
-            + "ŚŜŞŠŢŤŦÙÚÛÜŨŪŬŮŰŲŴẀẂẄỲÝŶŸŹŻŽa-zſƒǺàáâãäåāăąæǽçćĉċčþďðèéêëēĕėęěĝģğġĥħ"
-            + "ìíîïĩīĭįĵķĺļľŀłñńņňŋòóôõöøōŏőǿœŕŗřśŝşšţťŧùúûüũūŭůűųŵẁẃẅỳýŷÿźżž";
-
-    private static final String EMAIL_FORMAT = "^[" + VALID_CHARACTERS + "]+@[" + VALID_CHARACTERS + "]+\\.["
-            + VALID_CHARACTERS + "]+$";
+    private static final String EMAIL_FORMAT = "^.+@.+\\..+$";
 
     /**
      * 

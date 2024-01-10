@@ -109,16 +109,25 @@ variable "log_level" {
   type        = string
   description = "The log level for services to use: trace, debug, info or error"
 }
-variable "api_url" {
-  type = string
-}
 variable "human_log" {
   type    = string
   default = "1"
 }
-variable "account_api_url" {
-  type = string
+
+# ------------------------------------------------------------------------------
+# ERIC environment variable configs
+# ------------------------------------------------------------------------------
+variable "eric_cpus" {
+  type = number
+  description = "The required cpu resource for eric. 1024 here is 1 vCPU"
+  default = 256
 }
-variable "developer_hub_url" {
-  type = string
+variable "eric_memory" {
+  type = number
+  description = "The required memory for eric"
+  default = 512
+}
+variable "eric_version" {
+  type        = string
+  description = "The version of the eric container to run."
 }
