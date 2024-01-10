@@ -16,13 +16,12 @@ locals {
   stack_secrets              = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
   application_subnet_pattern = local.stack_secrets["application_subnet_pattern"]
   use_set_environment_files  = var.use_set_environment_files
-  app_environment_filename   = "presenter-account.env"
+  app_environment_filename   = "presenter-account-api.env"
   vpc_name                   = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
 
   # Enable Eric
   use_eric_reverse_proxy    = true
   eric_port                 = "3001" # container port plus 1
-  eric_environment_filename = "eric.env"
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
@@ -73,4 +72,6 @@ locals {
     { "name": "API_KEY", "valueFrom": local.global_secrets_arn_map.eric_api_key },
     { "name": "AES256_KEY", "valueFrom": local.global_secrets_arn_map.eric_aes256_key }
   ]
+
+  eric_environment_filename = "eric.env"
 }
