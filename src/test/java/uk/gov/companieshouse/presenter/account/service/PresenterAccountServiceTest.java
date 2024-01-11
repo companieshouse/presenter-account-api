@@ -11,7 +11,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +30,7 @@ import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDet
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
 import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
-import uk.gov.companieshouse.presenter.account.utils.UuidGenerator;
+import uk.gov.companieshouse.presenter.account.utils.IdGenerator;
 
 @ExtendWith(MockitoExtension.class)
 class PresenterAccountServiceTest {
@@ -62,11 +61,12 @@ class PresenterAccountServiceTest {
     PresenterAccountAddressMapper addressMapper;
 
     @Mock
-    UuidGenerator uuidGenerator;
+    IdGenerator idGenerator;
 
     @BeforeEach
     void setUp() {
-        presenterAccountService = new PresenterAccountService(logger, detailsMapper, presenterAccountRepository, uuidGenerator);
+        presenterAccountService = new PresenterAccountService(logger, detailsMapper, presenterAccountRepository,
+                idGenerator);
     }
 
     @Test
@@ -77,7 +77,7 @@ class PresenterAccountServiceTest {
         PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, EMAIL, NAME,
                 ADDRESS);
         when(detailsMapper.map(PRESENTER_ID, presenterRequest)).thenReturn(presenterDetails);
-        when(uuidGenerator.createUUID()).thenReturn(UUID.fromString(PRESENTER_ID));
+        when(idGenerator.createUUID()).thenReturn(PRESENTER_ID);
         String presenterID = presenterAccountService.createPresenterAccount(presenterRequest);
         assertNotNull(presenterID);
         verify(presenterAccountRepository, times(1)).save(presenterDetails);

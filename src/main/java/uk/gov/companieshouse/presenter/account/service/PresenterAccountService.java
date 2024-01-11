@@ -8,10 +8,9 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.base.AdditionalIdMapper;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
-import uk.gov.companieshouse.presenter.account.utils.UuidGenerator;
+import uk.gov.companieshouse.presenter.account.utils.IdGenerator;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PresenterAccountService {
@@ -24,19 +23,19 @@ public class PresenterAccountService {
 
     private PresenterAccountRepository presenterAccountRepository;
 
-    private UuidGenerator uuidGenerator;
+    private IdGenerator idGenerator;
 
     @Autowired
     public PresenterAccountService(Logger logger, PresenterAccountDetailsMapper detailsMapper,
-            PresenterAccountRepository presenterAccountRepository, UuidGenerator uuidGenerator) {
+            PresenterAccountRepository presenterAccountRepository, IdGenerator idGenerator) {
         this.logger = logger;
         this.detailsMapper = detailsMapper;
         this.presenterAccountRepository = presenterAccountRepository;
-        this.uuidGenerator = uuidGenerator;
+        this.idGenerator = idGenerator;
     }
 
     public String createPresenterAccount(PresenterAccountDetailsRequest presenterAccountDetailsRequest) {
-        PresenterAccountDetails presenterDetails = detailsMapper.map(uuidGenerator.createUUID().toString(),
+        PresenterAccountDetails presenterDetails = detailsMapper.map(idGenerator.createUUID(),
                 presenterAccountDetailsRequest);
         presenterAccountRepository.save(presenterDetails);
         logger.info("Presenter account details has been added to the database.");
