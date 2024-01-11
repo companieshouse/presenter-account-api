@@ -1,5 +1,7 @@
 package uk.gov.companieshouse.presenter.account.controller;
 
+import java.net.URI;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,9 +18,6 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
 
-import java.net.URI;
-import java.util.Optional;
-
 
 @Controller
 @RequestMapping("/presenter-account")
@@ -34,7 +33,7 @@ public class PresenterAccountController {
     }
 
     @GetMapping("/healthcheck")
-    public ResponseEntity<String> healthCheck(){
+    public ResponseEntity<String> healthCheck() {
         return ResponseEntity.ok().body("OK");
     }
 
@@ -65,7 +64,7 @@ public class PresenterAccountController {
     }
 
     @ExceptionHandler
-    ResponseEntity<String> exceptionHandler(Exception ex){
+    ResponseEntity<String> exceptionHandler(Exception ex) {
         logger.error("Unhandled exception", ex);
         return ResponseEntity.internalServerError().build();
     }
