@@ -68,8 +68,7 @@ public record PresenterAccountDetails(
 
     @Override
     public String toString() {
-        return "PresenterAccountDetails ["
-                + presenterDetailsId + "]";
+        return "PresenterAccountDetails []";
     }
 
 }
