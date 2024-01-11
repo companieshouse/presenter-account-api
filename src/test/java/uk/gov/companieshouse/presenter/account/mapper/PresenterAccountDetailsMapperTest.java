@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import uk.gov.companieshouse.presenter.account.exceptionhandler.InternalInvalidArgumentException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
@@ -70,12 +69,4 @@ class PresenterAccountDetailsMapperTest {
         assertThrows(ValidationException.class, () -> mapper.map(PRESENTER_ID, null));
     }
 
-    @Test
-    @DisplayName("Mapping null presenter id to presenter account details")
-    void mapNullIdTest() {
-        PresenterNameRequest name = mock(PresenterNameRequest.class);
-        PresenterAddressRequest address = mock(PresenterAddressRequest.class);
-        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(USER_ID, EMAIL, name, address);
-        assertThrows(InternalInvalidArgumentException.class, () -> mapper.map(null, request));
-    }
 }

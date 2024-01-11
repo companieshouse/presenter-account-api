@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import uk.gov.companieshouse.presenter.account.exceptionhandler.InternalInvalidArgumentException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 
 class PresenterAccountDetailsTest {
@@ -40,15 +39,11 @@ class PresenterAccountDetailsTest {
         Exception addressException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL, NAME, null);
         });
-        Exception internalInvalidAgrumentException = assertThrows(InternalInvalidArgumentException.class, () -> {
-            new PresenterAccountDetails("", USER_ID, EMAIL, NAME, ADDRESS);
-        });
 
         assertTrue(idException.getMessage().contains("user"));
         assertTrue(emailException.getMessage().contains("email"));
         assertTrue(nameException.getMessage().contains("name"));
         assertTrue(addressException.getMessage().contains("address"));
-        assertTrue(internalInvalidAgrumentException.getMessage().contains("id"));
     }
 
 }

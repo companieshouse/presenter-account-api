@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.logging.Logger;
-import uk.gov.companieshouse.presenter.account.exceptionhandler.InternalInvalidArgumentException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
@@ -61,11 +60,6 @@ public class PresenterAccountController {
     ResponseEntity<String> httpMessageNotReadableException(final HttpMessageNotReadableException e) {
         return ResponseEntity.badRequest().body("Input format issue.");
 
-    }
-
-    @ExceptionHandler(InternalInvalidArgumentException.class)
-    ResponseEntity<String> internalInvalidArgumentException(final InternalInvalidArgumentException e) {
-        return exceptionHandler(e);
     }
 
     @ExceptionHandler
