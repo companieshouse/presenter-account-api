@@ -1,15 +1,14 @@
-package uk.gov.companieshouse.presenter.account.model.mapper.presenter.account;
+package uk.gov.companieshouse.presenter.account.mapper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-
+import org.junit.jupiter.api.Test;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountNameMapper;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterName;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountNameMapper;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
 
 public class PresenterAccountNameMapperTest {
 
@@ -26,7 +25,7 @@ public class PresenterAccountNameMapperTest {
     @Test
     @DisplayName("Mapping from presenter name to presenter account name")
     void mapperTest() {
-        PresenterName name = new PresenterName(first, last);
+        PresenterNameRequest name = new PresenterNameRequest(first, last);
         var accountName = mapper.map(name);
         assertEquals(first, accountName.getForename());
         assertEquals(last, accountName.getSurname());

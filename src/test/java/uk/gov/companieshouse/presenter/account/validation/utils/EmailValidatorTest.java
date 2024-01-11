@@ -56,9 +56,9 @@ class EmailValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { NO_AT_EMAIL, NO_DOT_EMAIL, NO_START_EMAIL,
+    @ValueSource(strings = {NO_AT_EMAIL, NO_DOT_EMAIL, NO_START_EMAIL,
             NO_EMAIL, NO_END_EMAIL, NO_DOMAIN_EMAIL,
-            MULTILINE_EMAIL })
+            MULTILINE_EMAIL})
     @DisplayName("Failed Email Validation incorrect format")
     void testEmailValidationFailed(String email) {
         assertFalse(EmailValidator.validateEmail(email, LENGTH));

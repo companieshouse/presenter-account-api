@@ -1,9 +1,13 @@
 package uk.gov.companieshouse.presenter.account.controller;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,14 +17,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterRequest;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 @ExtendWith(MockitoExtension.class)
 class PresenterAccountControllerTest {
@@ -33,7 +36,7 @@ class PresenterAccountControllerTest {
     PresenterAccountService presenterAccountService;
 
     @Mock
-    PresenterRequest presenterRequest;
+    PresenterAccountDetailsRequest presenterAccountDetailsRequest;
 
     @Mock
     Logger logger;
@@ -54,11 +57,12 @@ class PresenterAccountControllerTest {
     @DisplayName("Return 201 when valid presenter details is submitted")
     void testCreatePresenterAccountSuccessResponse() {
         final String id = "id";
-        when(presenterAccountService.createPresenterAccount(presenterRequest)).thenReturn(id);
+        when(presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest)).thenReturn(id);
 
-        var response = presenterAccountController.createPresenterAccount(presenterRequest);
+        var response = presenterAccountController.createPresenterAccount(presenterAccountDetailsRequest);
         var header = response.getHeaders().getFirst("Location");
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
+        assertNotNull(header);
         assertTrue(header.contains(PRESENTER_ACCOUNT + id));
     }
 
@@ -94,4 +98,39 @@ class PresenterAccountControllerTest {
         assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
+    @Test
+    @DisplayName("Return 200 when presenter account is found")
+    void testGetPresenterAccountSuccessResponse() {
+        final String id = "id";
+        PresenterAccountDetails presenterAccountDetails = new PresenterAccountDetails("userId",
+                "test@example.com",
+                new PresenterAccountName("forename", "surname"),
+                new PresenterAccountAddress("premises",
+                        "addressLine1",
+                        "addressLine2",
+                        "county",
+                        "country",
+                        "postcode"));
+        Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.of(presenterAccountDetails);
+
+        when(presenterAccountService.getPresenterAccount(id)).thenReturn(optionalPresenterAccountDetails);
+
+        var response = presenterAccountController.getPresenterAccount(id);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody(), is(presenterAccountDetails));
+    }
+
+    @Test
+    @DisplayName("Return 404 when presenter account is not found")
+    void testGetPresenterAccountNotFoundResponse() {
+        final String id = "id";
+        Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.empty();
+
+        when(presenterAccountService.getPresenterAccount(id)).thenReturn(optionalPresenterAccountDetails);
+
+        var response = presenterAccountController.getPresenterAccount(id);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
 }

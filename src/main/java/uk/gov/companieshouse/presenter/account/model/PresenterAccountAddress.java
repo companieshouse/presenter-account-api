@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.presenter.account.model;
 
 import org.springframework.data.mongodb.core.mapping.Field;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
 
@@ -14,19 +13,19 @@ public class PresenterAccountAddress {
     private static final int COUNTRY_MAX_LENGTH = 40;
     private static final int POSTCODE_MAX_LENGTH = 10;
 
-    @Field
+    @Field("premises")
     private final String premises;
 
-    @Field
+    @Field("addressLine1")
     private final String addressLine1;
 
-    @Field
+    @Field("addressLine2")
     private final String addressLine2;
 
-    @Field
+    @Field("county")
     private final String county;
 
-    @Field
+    @Field("country")
     private final String country;
 
     @Field("postCode")

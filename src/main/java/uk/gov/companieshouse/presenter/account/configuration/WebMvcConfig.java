@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import uk.gov.companieshouse.api.interceptor.TokenPermissionsInterceptor;
 import uk.gov.companieshouse.presenter.account.interceptor.LoggingInterceptor;
 import uk.gov.companieshouse.presenter.account.interceptor.UserAuthenticationInterceptor;
@@ -17,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     public WebMvcConfig(final LoggingInterceptor loggingInterceptor,
-            final UserAuthenticationInterceptor userAuthenticationInterceptor) {
+                        final UserAuthenticationInterceptor userAuthenticationInterceptor) {
         this.loggingInterceptor = loggingInterceptor;
         this.userAuthenticationInterceptor = userAuthenticationInterceptor;
     }

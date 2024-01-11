@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.presenter.account.model.mapper.presenter.account;
+package uk.gov.companieshouse.presenter.account.mapper;
 
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -15,12 +15,12 @@ import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationExcept
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountAddressMapper;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountDetailsMapper;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountNameMapper;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterAddress;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterName;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterRequest;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountAddressMapper;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountDetailsMapper;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountNameMapper;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 
 @ExtendWith(MockitoExtension.class)
 class PresenterAccountDetailsMapperTest {
@@ -44,14 +44,15 @@ class PresenterAccountDetailsMapperTest {
     @Test
     @DisplayName("Mapping from presenter request to presenter account details")
     void mapperTest() {
-        PresenterName name = mock(PresenterName.class);
-        PresenterAddress address = mock(PresenterAddress.class);
-        PresenterRequest request = new PresenterRequest(userId, email, name, address);
-        
+        PresenterNameRequest name = mock(PresenterNameRequest.class);
+        PresenterAddressRequest address = mock(PresenterAddressRequest.class);
+        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(userId, email, name, address);
+
         when(nameMapper.map(name)).thenReturn(mock(PresenterAccountName.class));
         when(addressMapper.map(address)).thenReturn(mock(PresenterAccountAddress.class));
-        
-        PresenterAccountDetails details = mapper.map(request);
+
+        // TODO: complete this test
+        @SuppressWarnings("unused") PresenterAccountDetails details = mapper.map(request);
 
     }
 

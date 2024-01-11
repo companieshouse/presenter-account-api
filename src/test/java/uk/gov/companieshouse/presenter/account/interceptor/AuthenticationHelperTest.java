@@ -10,15 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import jakarta.servlet.http.HttpServletRequest;
-import uk.gov.companieshouse.api.util.security.TokenPermissions;
 import uk.gov.companieshouse.api.util.security.Permission.Key;
+import uk.gov.companieshouse.api.util.security.TokenPermissions;
 
 import java.text.MessageFormat;
 
@@ -155,7 +154,7 @@ class AuthenticationHelperTest {
     void getRequestMethod() {
 
         when(request.getMethod()).thenReturn("GET");
-        
+
         assertEquals("GET", testHelper.getRequestMethod(request));
     }
 

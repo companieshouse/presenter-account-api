@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.presenter.account.model;
 
+import org.springframework.data.mongodb.core.mapping.Field;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
 
@@ -9,8 +10,10 @@ public class PresenterAccountName {
 
     private static final int MAX_SURNAME_LENGTH = 40;
 
+    @Field("forename")
     private String forename;
 
+    @Field("surname")
     private String surname;
 
     public PresenterAccountName(final String forename, final String surname) {

@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.presenter.account.model.mapper.presenter.account;
+package uk.gov.companieshouse.presenter.account.mapper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -6,11 +6,10 @@ import static org.junit.Assert.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountAddressMapper;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.PresenterAccountAddressMapper;
-import uk.gov.companieshouse.presenter.account.model.request.presenter.account.PresenterAddress;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
 
 class PresenterAccountAddressMapperTest {
 
@@ -29,7 +28,7 @@ class PresenterAccountAddressMapperTest {
     @Test
     @DisplayName("Mapping from presenter address to presenter account address")
     void mapperTest() {
-        PresenterAddress address = new PresenterAddress(premises, line1, null, null, country, postcode);
+        PresenterAddressRequest address = new PresenterAddressRequest(premises, line1, null, null, country, postcode);
         PresenterAccountAddress accountAddress = mapper.map(address);
         assertEquals(premises, accountAddress.getPremises());
         assertEquals(line1, accountAddress.getAddressLine1());

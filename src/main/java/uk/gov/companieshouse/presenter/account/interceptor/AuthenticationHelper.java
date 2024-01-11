@@ -1,9 +1,8 @@
 package uk.gov.companieshouse.presenter.account.interceptor;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-
-import jakarta.servlet.http.HttpServletRequest;
 import uk.gov.companieshouse.api.util.security.Permission.Key;
 import uk.gov.companieshouse.api.util.security.TokenPermissions;
 

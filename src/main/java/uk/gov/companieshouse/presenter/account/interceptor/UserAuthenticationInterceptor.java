@@ -1,18 +1,16 @@
 package uk.gov.companieshouse.presenter.account.interceptor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import uk.gov.companieshouse.api.util.security.Permission.Key;
 import uk.gov.companieshouse.api.util.security.Permission.Value;
 import uk.gov.companieshouse.api.util.security.TokenPermissions;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.util.RequestLogger;
-
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 /**
  * Checks each request to the service to verify that the user is authorised to
@@ -44,7 +42,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-            Object handler) {
+                             Object handler) {
 
         final String requestMethod = authHelper.getRequestMethod(request);
         if (authHelper.isGetMethod(requestMethod)) {
@@ -120,7 +118,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-            Exception ex) {
+                                Exception ex) {
         // cleanup request attributes to ensure user details are never leaked
         // into another request
         request.setAttribute("user_email", null);
