@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import uk.gov.companieshouse.presenter.account.exceptionhandler.InternalInvalidArgumentException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.validation.utils.EmailValidator;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
@@ -26,20 +25,11 @@ public record PresenterAccountDetails(
             final String email,
             final PresenterAccountName name,
             final PresenterAccountAddress address) {
-        this.presenterDetailsId = validateUUID(presenterDetailsId);
+        this.presenterDetailsId = presenterDetailsId;
         this.userId = validateUserId(userId);
         this.email = validateEmail(email);
         this.name = validateName(name);
         this.address = validateAddress(address);
-    }
-
-    private String validateUUID(final String id) throws InternalInvalidArgumentException {
-        final String errorMessage = id + " is not a valid uuid";
-        if (StringValidator.validateUUID(id)) {
-            return id;
-        } else {
-            throw new InternalInvalidArgumentException(errorMessage);
-        }
     }
 
     private String validateUserId(final String id) {
@@ -75,7 +65,7 @@ public record PresenterAccountDetails(
             throw new ValidationException("presenter address can not be null");
         }
     }
-    
+
     @Override
     public String toString() {
         return "PresenterAccountDetails ["

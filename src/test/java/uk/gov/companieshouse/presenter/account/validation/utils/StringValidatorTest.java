@@ -25,9 +25,6 @@ class StringValidatorTest {
     private static final int MIN_LENGTH = 1;
     private static final int BIG_LENGTH = Integer.MAX_VALUE;
 
-    private static final String VALID_UUID = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
-    private static final String INVALID_UUID = "Invalid";
-
     @ParameterizedTest
     @ValueSource(strings = { NORMAL_STRING })
     @DisplayName("Pass string Validation Format")
@@ -62,16 +59,4 @@ class StringValidatorTest {
         assertFalse(StringValidator.validateString(NORMAL_STRING, MIN_LENGTH));
     }
 
-    @Test
-    @DisplayName("Pass uuid string with valid string uuid")
-    void testValidateUUID() {
-        assertTrue(StringValidator.validateUUID(VALID_UUID));
-    }
-
-    @Test
-    @DisplayName("Failed uuid string with invalid input")
-    void testInvalidValidateUUID() {
-        assertFalse(StringValidator.validateUUID(null));
-        assertFalse(StringValidator.validateUUID(INVALID_UUID));
-    }
 }

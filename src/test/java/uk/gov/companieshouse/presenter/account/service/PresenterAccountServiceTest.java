@@ -3,6 +3,7 @@ package uk.gov.companieshouse.presenter.account.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
@@ -10,7 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.companieshouse.logging.Logger;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountAddressMapper;
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountDetailsMapper;
+import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountNameMapper;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
@@ -49,6 +53,12 @@ class PresenterAccountServiceTest {
     @Mock
     PresenterAccountDetailsMapper detailsMapper;
 
+    @Mock
+    PresenterAccountNameMapper nameMapper;
+
+    @Mock
+    PresenterAccountAddressMapper addressMapper;
+
     @BeforeEach
     void setUp() {
         presenterAccountService = new PresenterAccountService(logger, detailsMapper, presenterAccountRepository);
@@ -59,17 +69,34 @@ class PresenterAccountServiceTest {
     void testCreatePresenterAccount() {
         PresenterAccountDetails presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL,
                 ACCOUNT_NAME, ACCOUNT_ADDRESS);
-        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, EMAIL, NAME, ADDRESS);
+        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, EMAIL, NAME,
+                ADDRESS);
         when(detailsMapper.map(PRESENTER_ID, presenterRequest)).thenReturn(presenterDetails);
         String presenterID = presenterAccountService.createPresenterAccount(presenterRequest, PRESENTER_ID);
-        Assertions.assertNotNull(presenterID);
+        assertNotNull(presenterID);
         verify(presenterAccountRepository, times(1)).save(presenterDetails);
+    }
+
+    @Test
+    @DisplayName("Create presenter account details without defining uuid")
+    void testCreatePresenterAccountUUIDcreation() {
+        var detailsMapper = new PresenterAccountDetailsMapper(addressMapper, nameMapper);
+        var presenterAccountService = new PresenterAccountService(logger, detailsMapper, presenterAccountRepository);
+        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, EMAIL, NAME,
+                ADDRESS);
+
+        when(nameMapper.map(NAME)).thenReturn(ACCOUNT_NAME);
+        when(addressMapper.map(ADDRESS)).thenReturn(ACCOUNT_ADDRESS);
+
+        var presenterID = presenterAccountService.createPresenterAccount(presenterRequest);
+
+        assertTrue(Pattern.matches("^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$", presenterID));
     }
 
     @Test
     void testGetPresenterAccount() {
         String presenterDetailsId = PRESENTER_ID;
-        PresenterAccountDetails accountDetails = new PresenterAccountDetails(presenterDetailsId, 
+        PresenterAccountDetails accountDetails = new PresenterAccountDetails(presenterDetailsId,
                 "userId",
                 "test@example.com",
                 new PresenterAccountName("forename", "surname"),

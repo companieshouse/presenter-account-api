@@ -9,8 +9,6 @@ public final class StringValidator {
             + "ŚŜŞŠŢŤŦÙÚÛÜŨŪŬŮŰŲŴẀẂẄỲÝŶŸŹŻŽa-zſƒǺàáâãäåāăąæǽçćĉċčþďðèéêëēĕėęěĝģğġĥħ"
             + "ìíîïĩīĭįĵķĺļľŀłñńņňŋòóôõöøōŏőǿœŕŗřśŝşšţťŧùúûüũūŭůűųŵẁẃẅỳýŷÿźżž";
 
-    private static final String UUID_REGEX = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
-
     /**
      * 
      * @param unvalidatedString the raw string to be validated
@@ -29,10 +27,6 @@ public final class StringValidator {
         }
 
         return false;
-    }
-
-    public static final boolean validateUUID(final String id) throws IllegalArgumentException {
-        return id != null && Pattern.matches(UUID_REGEX, id);
     }
 
     /**

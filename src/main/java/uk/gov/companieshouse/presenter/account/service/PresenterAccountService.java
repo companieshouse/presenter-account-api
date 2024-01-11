@@ -12,7 +12,6 @@ import uk.gov.companieshouse.presenter.account.repository.PresenterAccountReposi
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
 public class PresenterAccountService {
 
@@ -21,7 +20,6 @@ public class PresenterAccountService {
     private Logger logger;
 
     private AdditionalIdMapper<PresenterAccountDetails, PresenterAccountDetailsRequest> detailsMapper;
-
 
     private PresenterAccountRepository presenterAccountRepository;
 
@@ -33,12 +31,14 @@ public class PresenterAccountService {
         this.presenterAccountRepository = presenterAccountRepository;
     }
 
-    public String createPresenterAccount(PresenterAccountDetailsRequest presenterRequest) {
-        return createPresenterAccount(presenterRequest, UUID.randomUUID().toString());
+    public String createPresenterAccount(PresenterAccountDetailsRequest presenterAccountDetailsRequest) {
+        return createPresenterAccount(presenterAccountDetailsRequest, UUID.randomUUID().toString());
     }
 
-    public String createPresenterAccount(PresenterAccountDetailsRequest presenterRequest, String presenterDetailsId) {
-        PresenterAccountDetails presenterDetails = detailsMapper.map(presenterDetailsId, presenterRequest);
+    public String createPresenterAccount(PresenterAccountDetailsRequest presenterAccountDetailsRequest,
+            String presenterDetailsId) {
+        PresenterAccountDetails presenterDetails = detailsMapper.map(presenterDetailsId,
+                presenterAccountDetailsRequest);
         presenterAccountRepository.save(presenterDetails);
         logger.info("Presenter account details has been added to the database.");
         return presenterDetails.presenterDetailsId();
