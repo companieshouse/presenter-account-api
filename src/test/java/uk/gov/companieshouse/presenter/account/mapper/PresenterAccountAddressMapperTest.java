@@ -3,14 +3,12 @@ package uk.gov.companieshouse.presenter.account.mapper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountAddressMapper;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
 
 class PresenterAccountAddressMapperTest {
@@ -32,12 +30,12 @@ class PresenterAccountAddressMapperTest {
     void mapperTest() {
         PresenterAddressRequest address = new PresenterAddressRequest(premises, line1, null, null, country, postcode);
         PresenterAccountAddress accountAddress = mapper.map(address);
-        Assertions.assertEquals(premises, accountAddress.getPremises());
-        Assertions.assertEquals(line1, accountAddress.getAddressLine1());
-        Assertions.assertEquals("", accountAddress.getAddressLine2());
-        Assertions.assertEquals("", accountAddress.getCounty());
-        Assertions.assertEquals(country, accountAddress.getCountry());
-        Assertions.assertEquals(postcode, accountAddress.getPostcode());
+        assertEquals(premises, accountAddress.getPremises());
+        assertEquals(line1, accountAddress.getAddressLine1());
+        assertEquals("", accountAddress.getAddressLine2());
+        assertEquals("", accountAddress.getCounty());
+        assertEquals(country, accountAddress.getCountry());
+        assertEquals(postcode, accountAddress.getPostcode());
     }
 
     @Test

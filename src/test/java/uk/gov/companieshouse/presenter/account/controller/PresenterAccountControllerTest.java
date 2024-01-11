@@ -2,10 +2,11 @@ package uk.gov.companieshouse.presenter.account.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,6 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
-
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class PresenterAccountControllerTest {
@@ -62,7 +61,7 @@ class PresenterAccountControllerTest {
         var response = presenterAccountController.createPresenterAccount(presenterAccountDetailsRequest);
         var header = response.getHeaders().getFirst("Location");
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
-        Assertions.assertTrue(header != null && header.contains(PRESENTER_ACCOUNT + id));
+        assertTrue(header != null && header.contains(PRESENTER_ACCOUNT + id));
     }
 
     // NOT TESTING MISSING NON-OPTIONAL PARAMETER AS THEY ARE CATCH BY MODEL.

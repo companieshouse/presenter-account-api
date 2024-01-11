@@ -1,12 +1,15 @@
 package uk.gov.companieshouse.presenter.account.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,8 +26,6 @@ import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDet
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
 import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
-
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class PresenterAccountServiceTest {
@@ -77,8 +78,8 @@ public class PresenterAccountServiceTest {
 
         Optional<PresenterAccountDetails> result = presenterAccountService.getPresenterAccount(presenterAccountId);
 
-        Assertions.assertTrue(result.isPresent());
-        Assertions.assertEquals(accountDetails, result.get());
+        assertTrue(result.isPresent());
+        assertEquals(accountDetails, result.get());
         verify(presenterAccountRepository, times(1)).findById(presenterAccountId);
     }
 
@@ -91,6 +92,6 @@ public class PresenterAccountServiceTest {
                 () -> presenterAccountService.getPresenterAccount(presenterAccountId));
 
         verify(logger, times(1)).error(anyString(), any(Exception.class));
-        Assertions.assertEquals(RuntimeException.class, exception.getClass());
+        assertEquals(RuntimeException.class, exception.getClass());
     }
 }
