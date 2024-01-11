@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.presenter.account.mapper;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +10,7 @@ import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationExcept
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountNameMapper;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
 
-public class PresenterAccountNameMapperTest {
+class PresenterAccountNameMapperTest {
 
     PresenterAccountNameMapper mapper;
 
