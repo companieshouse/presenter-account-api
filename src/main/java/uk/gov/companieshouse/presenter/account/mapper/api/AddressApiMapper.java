@@ -11,12 +11,12 @@ public class AddressApiMapper implements Mapper<PresenterAccountAddressApi, Pres
     @Override
     public PresenterAccountAddressApi map(PresenterAccountAddress value) {
         return PresenterAccountAddressApiBuilder.createPresenterAccountAddressApi()
-                .withAddressLine1(value.getAddressLine1())
-                .withAddressLine2(value.getAddressLine2())
-                .withCounty(value.getCounty())
-                .withCountry(value.getCountry())
-                .withPostcode(value.getPostcode())
-                .withPremises(value.getPremises())
+                .withAddressLine1(value.addressLine1())
+                .withAddressLine2(value.addressLine2())
+                .withCounty(value.county())
+                .withCountry(value.country())
+                .withPostcode(value.postcode())
+                .withPremises(value.premises())
                 .build();
     }
 }

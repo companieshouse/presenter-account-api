@@ -18,7 +18,6 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
 
-
 @Controller
 @RequestMapping("/presenter-account")
 public class PresenterAccountController {
@@ -44,9 +43,9 @@ public class PresenterAccountController {
         return ResponseEntity.created(URI.create(uri)).build();
     }
 
-    @GetMapping("/{presenterAccountId}")
-    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(@PathVariable("presenterAccountId") String presenterAccountId) {
-        Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService.getPresenterAccount(presenterAccountId);
+    @GetMapping("/{presenterDetailsId}")
+    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(@PathVariable("presenterDetailsId") String presenterDetailsId) {
+        Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService.getPresenterAccount(presenterDetailsId);
         return presenterAccountDetailsOptional
                 .map(presenterAccountDetails -> ResponseEntity.ok().body(presenterAccountDetails))
                 .orElseGet(() -> ResponseEntity.notFound().build());

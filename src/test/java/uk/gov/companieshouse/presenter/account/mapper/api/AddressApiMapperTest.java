@@ -24,11 +24,11 @@ class AddressApiMapperTest {
         PresenterAccountAddressApi addressApi = mapper.map(address);
 
         // then
-        assertEquals(address.getAddressLine1(), addressApi.getAddressLine1());
-        assertEquals(address.getAddressLine2(), addressApi.getAddressLine2());
-        assertEquals(address.getCounty(), addressApi.getCounty());
-        assertEquals(address.getCountry(), addressApi.getCountry());
-        assertEquals(address.getPostcode(), addressApi.getPostcode());
-        assertEquals(address.getPremises(), addressApi.getPremises());
+        assertEquals(address.addressLine1(), addressApi.getAddressLine1());
+        assertEquals(address.addressLine2(), addressApi.getAddressLine2());
+        assertEquals(address.county(), addressApi.getCounty());
+        assertEquals(address.country(), addressApi.getCountry());
+        assertEquals(address.postcode(), addressApi.getPostcode());
+        assertEquals(address.premises(), addressApi.getPremises());
     }
 }

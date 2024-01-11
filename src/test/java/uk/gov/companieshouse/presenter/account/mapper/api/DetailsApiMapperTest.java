@@ -34,6 +34,7 @@ class DetailsApiMapperTest {
     void testMap() {
         // Arrange
         // Replace these parameters with the actual parameters for PresenterAccountDetails' constructor
+        String presenterDetailsId = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
         String userId = "user123";
         String email = "example@example.com";
         var name = new PresenterAccountName("John", "Doe");
@@ -44,7 +45,7 @@ class DetailsApiMapperTest {
                 "Country",
                 "Postcode");
 
-        var presenterAccountDetails = new PresenterAccountDetails(userId, email, name, address);
+        var presenterAccountDetails = new PresenterAccountDetails(presenterDetailsId, userId, email, name, address);
 
         when(nameMapper.map(name)).thenReturn(PresenterAccountNameApiBuilder.createPresenterAccountNameApi()
                 .withForename("John")
@@ -64,7 +65,7 @@ class DetailsApiMapperTest {
 
         // Assert
         assertEquals(userId, result.getUserId());
-        assertNull(result.getPresenterDetailsId());
+        assertEquals(presenterDetailsId, result.getPresenterDetailsId());
         assertEquals(email, result.getEmail());
     }
 }

@@ -2,8 +2,8 @@ package uk.gov.companieshouse.presenter.account.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -101,8 +101,10 @@ class PresenterAccountControllerTest {
     @Test
     @DisplayName("Return 200 when presenter account is found")
     void testGetPresenterAccountSuccessResponse() {
-        final String id = "id";
-        PresenterAccountDetails presenterAccountDetails = new PresenterAccountDetails("userId",
+        final String id = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
+        PresenterAccountDetails presenterAccountDetails = new PresenterAccountDetails(
+                id,
+                "userId",
                 "test@example.com",
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",

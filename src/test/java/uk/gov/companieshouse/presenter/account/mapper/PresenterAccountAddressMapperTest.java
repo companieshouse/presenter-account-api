@@ -1,7 +1,8 @@
 package uk.gov.companieshouse.presenter.account.mapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,12 +31,12 @@ class PresenterAccountAddressMapperTest {
     void mapperTest() {
         PresenterAddressRequest address = new PresenterAddressRequest(premises, line1, null, null, country, postcode);
         PresenterAccountAddress accountAddress = mapper.map(address);
-        assertEquals(premises, accountAddress.getPremises());
-        assertEquals(line1, accountAddress.getAddressLine1());
-        assertEquals("", accountAddress.getAddressLine2());
-        assertEquals("", accountAddress.getCounty());
-        assertEquals(country, accountAddress.getCountry());
-        assertEquals(postcode, accountAddress.getPostcode());
+        assertEquals(premises, accountAddress.premises());
+        assertEquals(line1, accountAddress.addressLine1());
+        assertEquals("", accountAddress.addressLine2());
+        assertEquals("", accountAddress.county());
+        assertEquals(country, accountAddress.country());
+        assertEquals(postcode, accountAddress.postcode());
     }
 
     @Test

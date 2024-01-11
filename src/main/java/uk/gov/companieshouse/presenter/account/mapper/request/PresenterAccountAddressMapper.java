@@ -23,5 +23,4 @@ public class PresenterAccountAddressMapper implements Mapper<PresenterAccountAdd
             throw new ValidationException("Presenter address info is missing");
         }
     }
-    
 }
