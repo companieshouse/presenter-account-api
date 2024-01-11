@@ -2,6 +2,7 @@ package uk.gov.companieshouse.presenter.account.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -61,7 +62,8 @@ class PresenterAccountControllerTest {
         var response = presenterAccountController.createPresenterAccount(presenterAccountDetailsRequest);
         var header = response.getHeaders().getFirst("Location");
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
-        assertTrue(header != null && header.contains(PRESENTER_ACCOUNT + id));
+        assertNotNull(header);
+        assertTrue(header.contains(PRESENTER_ACCOUNT + id));
     }
 
     // NOT TESTING MISSING NON-OPTIONAL PARAMETER AS THEY ARE CATCH BY MODEL.
