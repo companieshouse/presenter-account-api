@@ -9,16 +9,16 @@ public final class StringValidator {
             + "ŚŜŞŠŢŤŦÙÚÛÜŨŪŬŮŰŲŴẀẂẄỲÝŶŸŹŻŽa-zſƒǺàáâãäåāăąæǽçćĉċčþďðèéêëēĕėęěĝģğġĥħ"
             + "ìíîïĩīĭįĵķĺļľŀłñńņňŋòóôõöøōŏőǿœŕŗřśŝşšţťŧùúûüũūŭůűųŵẁẃẅỳýŷÿźżž";
 
+    private static final String UUID_REGEX = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+
     /**
      * 
      * @param unvalidatedString the raw string to be validated
      * @param maxLength         of a valid string
-     * @return Optional of string that passed validation or an empty optional if
-     *         not.
-     * @throws IllegalArgumentException if an invalid max length is entered.
+     * @return is string matches the requirements of being a valid string and length
+     *         is up to and including maxLength
      */
-    public static final boolean validateString(final String unvalidatedString, final int maxLength)
-            throws IllegalArgumentException {
+    public static final boolean validateString(final String unvalidatedString, final int maxLength) {
 
         if (unvalidatedString != null && !unvalidatedString.isBlank()) {
             final String fullRegex = regexForValidString(maxLength);
@@ -29,6 +29,10 @@ public final class StringValidator {
         }
 
         return false;
+    }
+
+    public static final boolean validateUUID(final String id) throws IllegalArgumentException {
+        return id != null && Pattern.matches(UUID_REGEX, id);
     }
 
     /**

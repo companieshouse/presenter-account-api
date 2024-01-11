@@ -27,8 +27,8 @@ public class PresenterAccountNameMapperTest {
     void mapperTest() {
         PresenterNameRequest name = new PresenterNameRequest(first, last);
         var accountName = mapper.map(name);
-        assertEquals(first, accountName.getForename());
-        assertEquals(last, accountName.getSurname());
+        assertEquals(first, accountName.forename());
+        assertEquals(last, accountName.surname());
     }
 
     @Test

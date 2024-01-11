@@ -22,11 +22,11 @@ public class DetailsApiMapper implements Mapper<PresenterAccountDetailsApi, Pres
     @Override
     public PresenterAccountDetailsApi map(PresenterAccountDetails value) {
         return PresenterAccountDetailsApiBuilder.createPresenterAccountDetailsApi()
-                .withUserId(value.getUserId())
-                .withPresenterDetailsId(value.getPresenterDetailsId())
-                .withEmail(value.getEmail())
-                .withName(nameMapper.map(value.getName()))
-                .withAddress(addressMapper.map(value.getAddress()))
+                .withUserId(value.userId())
+                .withPresenterDetailsId(value.presenterDetailsId())
+                .withEmail(value.email())
+                .withName(nameMapper.map(value.name()))
+                .withAddress(addressMapper.map(value.address()))
                 .build();
     }
 }

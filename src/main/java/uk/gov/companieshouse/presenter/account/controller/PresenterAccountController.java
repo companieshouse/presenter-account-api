@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.logging.Logger;
+import uk.gov.companieshouse.presenter.account.exceptionhandler.InternalInvalidArgumentException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
-
 
 @Controller
 @RequestMapping("/presenter-account")
@@ -44,9 +44,9 @@ public class PresenterAccountController {
         return ResponseEntity.created(URI.create(uri)).build();
     }
 
-    @GetMapping("/{presenterAccountId}")
-    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(@PathVariable("presenterAccountId") String presenterAccountId) {
-        Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService.getPresenterAccount(presenterAccountId);
+    @GetMapping("/{presenterDetailsId}")
+    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(@PathVariable("presenterDetailsId") String presenterDetailsId) {
+        Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService.getPresenterAccount(presenterDetailsId);
         return presenterAccountDetailsOptional
                 .map(presenterAccountDetails -> ResponseEntity.ok().body(presenterAccountDetails))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -61,6 +61,11 @@ public class PresenterAccountController {
     ResponseEntity<String> httpMessageNotReadableException(final HttpMessageNotReadableException e) {
         return ResponseEntity.badRequest().body("Input format issue.");
 
+    }
+
+    @ExceptionHandler(InternalInvalidArgumentException.class)
+    ResponseEntity<String> internalInvalidArgumentException(final InternalInvalidArgumentException e) {
+        return exceptionHandler(e);
     }
 
     @ExceptionHandler

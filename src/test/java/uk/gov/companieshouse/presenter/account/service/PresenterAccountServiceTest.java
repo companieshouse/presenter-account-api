@@ -28,11 +28,15 @@ import uk.gov.companieshouse.presenter.account.model.request.PresenterNameReques
 import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class PresenterAccountServiceTest {
+class PresenterAccountServiceTest {
+    private static final String PRESENTER_ID = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
     private static final String EMAIL = "test@test.test";
     private static final String USER_ID = "userid";
     private static final PresenterNameRequest NAME = new PresenterNameRequest("FIRST", "SECOND");
+    private static final PresenterAccountName ACCOUNT_NAME = new PresenterAccountName("FIRST", "SECOND");
     private static final PresenterAddressRequest ADDRESS = new PresenterAddressRequest("a", "b", "c", "d", "e", "f");
+    private static final PresenterAccountAddress ACCOUNT_ADDRESS = new PresenterAccountAddress("a", "b", "c", "d", "e",
+            "f");
 
     PresenterAccountService presenterAccountService;
 
@@ -53,18 +57,20 @@ public class PresenterAccountServiceTest {
     @Test
     @DisplayName("Create presenter account details in mongo db")
     void testCreatePresenterAccount() {
-        PresenterAccountDetails presenterDetails = new PresenterAccountDetails();
+        PresenterAccountDetails presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL,
+                ACCOUNT_NAME, ACCOUNT_ADDRESS);
         PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, EMAIL, NAME, ADDRESS);
-        when(detailsMapper.map(presenterRequest)).thenReturn(presenterDetails);
-        String presenterID = presenterAccountService.createPresenterAccount(presenterRequest);
+        when(detailsMapper.map(PRESENTER_ID, presenterRequest)).thenReturn(presenterDetails);
+        String presenterID = presenterAccountService.createPresenterAccount(presenterRequest, PRESENTER_ID);
         Assertions.assertNotNull(presenterID);
         verify(presenterAccountRepository, times(1)).save(presenterDetails);
     }
 
     @Test
-    public void testGetPresenterAccount() {
-        String presenterAccountId = "123";
-        PresenterAccountDetails accountDetails = new PresenterAccountDetails("userId",
+    void testGetPresenterAccount() {
+        String presenterDetailsId = PRESENTER_ID;
+        PresenterAccountDetails accountDetails = new PresenterAccountDetails(presenterDetailsId, 
+                "userId",
                 "test@example.com",
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",
@@ -74,22 +80,22 @@ public class PresenterAccountServiceTest {
                         "country",
                         "postcode"));
 
-        when(presenterAccountRepository.findById(presenterAccountId)).thenReturn(Optional.of(accountDetails));
+        when(presenterAccountRepository.findById(presenterDetailsId)).thenReturn(Optional.of(accountDetails));
 
-        Optional<PresenterAccountDetails> result = presenterAccountService.getPresenterAccount(presenterAccountId);
+        Optional<PresenterAccountDetails> result = presenterAccountService.getPresenterAccount(presenterDetailsId);
 
         assertTrue(result.isPresent());
         assertEquals(accountDetails, result.get());
-        verify(presenterAccountRepository, times(1)).findById(presenterAccountId);
+        verify(presenterAccountRepository, times(1)).findById(presenterDetailsId);
     }
 
     @Test
-    public void testGetPresenterAccountThrowsException() {
-        String presenterAccountId = "123";
-        when(presenterAccountRepository.findById(presenterAccountId)).thenThrow(new RuntimeException());
+    void testGetPresenterAccountThrowsException() {
+        String presenterDetailsId = "123";
+        when(presenterAccountRepository.findById(presenterDetailsId)).thenThrow(new RuntimeException());
 
         Exception exception = assertThrows(RuntimeException.class,
-                () -> presenterAccountService.getPresenterAccount(presenterAccountId));
+                () -> presenterAccountService.getPresenterAccount(presenterDetailsId));
 
         verify(logger, times(1)).error(anyString(), any(Exception.class));
         assertEquals(RuntimeException.class, exception.getClass());

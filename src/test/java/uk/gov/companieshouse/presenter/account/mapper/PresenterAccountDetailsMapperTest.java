@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.presenter.account.mapper;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import uk.gov.companieshouse.presenter.account.exceptionhandler.InternalInvalidArgumentException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
@@ -33,8 +35,9 @@ class PresenterAccountDetailsMapperTest {
     @Mock
     PresenterAccountNameMapper nameMapper;
 
-    private final static String userId = "a";
-    private final static String email = "a@a.a";
+    private final static String PRESENTER_ID = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
+    private final static String USER_ID = "a";
+    private final static String EMAIL = "a@a.a";
 
     @BeforeEach
     void before() {
@@ -46,19 +49,33 @@ class PresenterAccountDetailsMapperTest {
     void mapperTest() {
         PresenterNameRequest name = mock(PresenterNameRequest.class);
         PresenterAddressRequest address = mock(PresenterAddressRequest.class);
-        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(userId, email, name, address);
+        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(USER_ID, EMAIL, name, address);
 
         when(nameMapper.map(name)).thenReturn(mock(PresenterAccountName.class));
         when(addressMapper.map(address)).thenReturn(mock(PresenterAccountAddress.class));
 
-        // TODO: complete this test
-        @SuppressWarnings("unused") PresenterAccountDetails details = mapper.map(request);
+        PresenterAccountDetails details = mapper.map(PRESENTER_ID, request);
+
+        assertEquals(PRESENTER_ID, details.presenterDetailsId());
+        assertEquals(USER_ID, details.userId());
+        assertEquals(EMAIL, details.email());
+        assertEquals(address.addressLine1(), details.address().addressLine1());
+        assertEquals(name.forename(), details.name().forename());
 
     }
 
     @Test
     @DisplayName("Mapping null to presenter account details")
-    void mapNullTest() {
-        assertThrows(ValidationException.class, () -> mapper.map(null));
+    void mapNullDetailsTest() {
+        assertThrows(ValidationException.class, () -> mapper.map(PRESENTER_ID, null));
+    }
+
+    @Test
+    @DisplayName("Mapping null presenter id to presenter account details")
+    void mapNullIdTest() {
+        PresenterNameRequest name = mock(PresenterNameRequest.class);
+        PresenterAddressRequest address = mock(PresenterAddressRequest.class);
+        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(USER_ID, EMAIL, name, address);
+        assertThrows(InternalInvalidArgumentException.class, () -> mapper.map(null, request));
     }
 }

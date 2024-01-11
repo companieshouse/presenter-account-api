@@ -28,7 +28,7 @@ class NameApiMapperTest {
         PresenterAccountNameApi presenterAccountNameApi = nameApiMapper.map(presenterAccountName);
 
         // Assert
-        assertEquals(presenterAccountName.getForename(), presenterAccountNameApi.getForename());
-        assertEquals(presenterAccountName.getSurname(), presenterAccountNameApi.getSurname());
+        assertEquals(presenterAccountName.forename(), presenterAccountNameApi.getForename());
+        assertEquals(presenterAccountName.surname(), presenterAccountNameApi.getSurname());
     }
 }

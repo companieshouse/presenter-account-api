@@ -11,8 +11,8 @@ public class NameApiMapper implements Mapper<PresenterAccountNameApi, PresenterA
     @Override
     public PresenterAccountNameApi map(PresenterAccountName value) {
         return PresenterAccountNameApiBuilder.createPresenterAccountNameApi()
-                .withForename(value.getForename())
-                .withSurname(value.getSurname())
+                .withForename(value.forename())
+                .withSurname(value.surname())
                 .build();
     }
 }
