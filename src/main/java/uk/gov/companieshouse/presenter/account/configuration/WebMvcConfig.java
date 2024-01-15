@@ -32,7 +32,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(userAuthenticationInterceptor)
                 .excludePathPatterns("/presenter-account/healthcheck");
         registry.addInterceptor(internalUserInterceptor)
-                .excludePathPatterns("/presenter-account/healthcheck");
+                .excludePathPatterns("/presenter-account/healthcheck")
+                .excludePathPatterns("/presenter-account/");
     }
 
     private TokenPermissionsInterceptor getTokenPermissionsInterceptor() {
