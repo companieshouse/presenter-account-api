@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -94,7 +93,7 @@ class PresenterAccountServiceTest {
                 new PresenterAccountAddress("premises",
                         "addressLine1",
                         "addressLine2",
-                        "county",
+                        "townOrCity",
                         "country",
                         "postcode"));
 

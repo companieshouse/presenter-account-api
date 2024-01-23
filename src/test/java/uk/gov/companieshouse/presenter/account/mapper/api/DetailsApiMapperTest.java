@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.presenter.account.mapper.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +54,7 @@ class DetailsApiMapperTest {
                 .withPremises("Premises")
                 .withAddressLine1("addressLine1")
                 .withAddressLine2("addressLine2")
-                .withCounty("County")
+                .withTownOrCity("Town Or City")
                 .withCountry("Country")
                 .withPostcode("Postcode")
                 .build());

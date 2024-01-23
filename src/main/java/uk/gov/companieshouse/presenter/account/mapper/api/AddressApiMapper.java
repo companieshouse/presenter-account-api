@@ -13,7 +13,7 @@ public class AddressApiMapper implements Mapper<PresenterAccountAddressApi, Pres
         return PresenterAccountAddressApiBuilder.createPresenterAccountAddressApi()
                 .withAddressLine1(value.addressLine1())
                 .withAddressLine2(value.addressLine2())
-                .withCounty(value.county())
+                .withTownOrCity(value.townOrCity())
                 .withCountry(value.country())
                 .withPostcode(value.postcode())
                 .withPremises(value.premises())

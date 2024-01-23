@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 
 class PresenterAccountAddressTest {
@@ -15,7 +14,7 @@ class PresenterAccountAddressTest {
     private final static String PREMISES = "premise";
     private final static String FIRST_LINE = "first line";
     private final static String SECOND_LINE = "second line";
-    private final static String COUNTY = "county";
+    private final static String COUNTY = "townOrCity";
     private final static String COUNTRY = "country";
     private final static String POSTCODE = "postcode";
     private final static String STRING_TOO_LONG = "a".repeat(41);
@@ -35,13 +34,13 @@ class PresenterAccountAddressTest {
     }
 
     @Test
-    @DisplayName("Create a valid presenter address with both second line and county empty")
+    @DisplayName("Create a valid presenter address with both second line and townOrCity empty")
     void testValidPresenterAddressWithoutSecondLineAndCounty() {
         address = new PresenterAccountAddress(PREMISES, FIRST_LINE, "", "", COUNTRY, POSTCODE);
     }
 
     @Test
-    @DisplayName("Create a valid presenter address with both second line and county null")
+    @DisplayName("Create a valid presenter address with both second line and townOrCity null")
     void testValidPresenterAddressWithSecondLineAndCountyAsNull() {
         address = new PresenterAccountAddress(PREMISES, FIRST_LINE, null, null, COUNTRY, POSTCODE);
     }

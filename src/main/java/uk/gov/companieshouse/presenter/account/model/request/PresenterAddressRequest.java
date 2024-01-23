@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record PresenterAddressRequest(String premises,
                                       String addressLine1,
                                       String addressLine2,
-                                      String county,
+                                      String townOrCity,
                                       String country,
                                       @JsonProperty("postCode") String postcode) {
     @Override
