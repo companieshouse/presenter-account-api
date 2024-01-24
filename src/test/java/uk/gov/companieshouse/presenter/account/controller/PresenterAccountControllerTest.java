@@ -110,7 +110,7 @@ class PresenterAccountControllerTest {
                 new PresenterAccountAddress("premises",
                         "addressLine1",
                         "addressLine2",
-                        "county",
+                        "townOrCity",
                         "country",
                         "postcode"));
         Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.of(presenterAccountDetails);

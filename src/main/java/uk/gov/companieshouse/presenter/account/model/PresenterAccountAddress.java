@@ -8,7 +8,7 @@ public record PresenterAccountAddress(
         @Field("premises") String premises,
         @Field("addressLine1") String addressLine1,
         @Field("addressLine2") String addressLine2,
-        @Field("county") String county,
+        @Field("townOrCity") String townOrCity,
         @Field("country") String country,
         @Field("postCode") String postcode) {
 
@@ -23,13 +23,13 @@ public record PresenterAccountAddress(
             final String premises,
             final String addressLine1,
             final String addressLine2,
-            final String county,
+            final String townOrCity,
             final String country,
             final String postcode) {
         this.premises = validatePremises(premises);
         this.addressLine1 = validateAddressLine1(addressLine1);
         this.addressLine2 = validateAddressLine2(addressLine2);
-        this.county = validatedCounty(county);
+        this.townOrCity = validatedTownOrCity(townOrCity);
         this.country = validateCountry(country);
         this.postcode = validatePostcode(postcode);
     }
@@ -50,11 +50,11 @@ public record PresenterAccountAddress(
         }
     }
 
-    private String validatedCounty(final String line) {
+    private String validatedTownOrCity(final String line) {
         if (line == null || line.isBlank()) {
             return "";
         } else {
-            return getValidatedLine(line, COUNTY_MAX_LENGTH, "county failed validation");
+            return getValidatedLine(line, COUNTY_MAX_LENGTH, "townOrCity failed validation");
         }
     }
 

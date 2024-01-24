@@ -34,7 +34,7 @@ class PresenterAccountAddressMapperTest {
         assertEquals(premises, accountAddress.premises());
         assertEquals(line1, accountAddress.addressLine1());
         assertEquals("", accountAddress.addressLine2());
-        assertEquals("", accountAddress.county());
+        assertEquals("", accountAddress.townOrCity());
         assertEquals(country, accountAddress.country());
         assertEquals(postcode, accountAddress.postcode());
     }

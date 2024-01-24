@@ -40,7 +40,7 @@
 		<structured-logging.version>3.0.1</structured-logging.version>
 		<api-security-java-version>2.0.3</api-security-java-version>
 		<api-sdk-manager-java-library.version>3.0.4</api-sdk-manager-java-library.version>
-		<private-api-sdk-java.version>4.0.28</private-api-sdk-java.version>
+		<private-api-sdk-java.version>4.0.36</private-api-sdk-java.version>
 
 	</properties>
 	<dependencyManagement>
