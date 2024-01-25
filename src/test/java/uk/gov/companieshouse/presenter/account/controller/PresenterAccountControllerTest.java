@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -67,12 +69,13 @@ class PresenterAccountControllerTest {
     void testCreatePresenterAccountSuccessResponse() {
         final String id = "id";
         when(presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest)).thenReturn(id);
-
         var response = presenterAccountController.createPresenterAccount(presenterAccountDetailsRequest);
         var header = response.getHeaders().getFirst("Location");
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
         assertNotNull(header);
         assertTrue(header.contains(PRESENTER_ACCOUNT + id));
+        // Make sure that KafkaProducerService is being called.
+        verify(kafkaProducerService, times(1)).sendPresenterAccountId(id);
     }
 
     // NOT TESTING MISSING NON-OPTIONAL PARAMETER AS THEY ARE CATCH BY MODEL.
