@@ -1,7 +1,5 @@
 package uk.gov.companieshouse.presenter.account.mapper.request;
 
-import java.util.Objects;
-
 import org.springframework.stereotype.Component;
 
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
