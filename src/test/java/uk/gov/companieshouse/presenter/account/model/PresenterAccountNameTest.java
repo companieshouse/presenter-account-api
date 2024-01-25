@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.presenter.account.model;
 
-
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,6 +22,8 @@ class PresenterAccountNameTest {
     @DisplayName("Create a valid presenter name")
     void testValidPresenterName() {
         name = new PresenterAccountName(FIRST_NAME, LAST_NAME);
+        assertEquals(FIRST_NAME, name.forename());
+        assertEquals(LAST_NAME, name.surname());
     }
 
     @Test

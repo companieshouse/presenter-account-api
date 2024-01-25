@@ -6,7 +6,7 @@ import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationExcept
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
-import uk.gov.companieshouse.presenter.account.model.mapper.presenter.account.mapper.base.AdditionalIdMapper;
+import uk.gov.companieshouse.presenter.account.mapper.AdditionalIdMapper;
 import uk.gov.companieshouse.presenter.account.mapper.Mapper;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
@@ -19,17 +19,17 @@ public class PresenterAccountDetailsMapper
     private final Mapper<PresenterAccountAddress, PresenterAddressRequest> addressMapper;
     private final Mapper<PresenterAccountName, PresenterNameRequest> nameMapper;
 
-    public PresenterAccountDetailsMapper(Mapper<PresenterAccountAddress, PresenterAddressRequest> addressMapper,
-            Mapper<PresenterAccountName, PresenterNameRequest> nameMapper) {
+    public PresenterAccountDetailsMapper(final Mapper<PresenterAccountAddress, PresenterAddressRequest> addressMapper,
+            final Mapper<PresenterAccountName, PresenterNameRequest> nameMapper) {
         this.addressMapper = addressMapper;
         this.nameMapper = nameMapper;
     }
 
     @Override
-    public PresenterAccountDetails map(String id, PresenterAccountDetailsRequest value) {
+    public PresenterAccountDetails map(final String id, final PresenterAccountDetailsRequest value) {
         if (value != null) {
-            PresenterAccountName name = nameMapper.map(value.name());
-            PresenterAccountAddress address = addressMapper.map(value.address());
+            final PresenterAccountName name = nameMapper.map(value.name());
+            final PresenterAccountAddress address = addressMapper.map(value.address());
             return new PresenterAccountDetails(
                     id,
                     value.userId(),

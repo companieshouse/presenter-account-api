@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import uk.gov.companieshouse.api.util.security.Permission.Key;
 import uk.gov.companieshouse.api.util.security.Permission.Value;
-import uk.gov.companieshouse.api.util.security.TokenPermissions;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.util.RequestLogger;
 
@@ -105,7 +104,7 @@ public class UserAuthenticationInterceptor implements AsyncHandlerInterceptor, R
     }
 
     private boolean validateUserPresenterPermission(@NotNull HttpServletRequest request) {
-        TokenPermissions tokenPermissions = authHelper.getTokenPermissions(request);
+        var tokenPermissions = authHelper.getTokenPermissions(request);
 
         boolean validPermission = authHelper.validTokenPermissions(tokenPermissions, USER_PRESENTER, CREATE);
 

@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -18,11 +20,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import uk.gov.companieshouse.logging.Logger;
+import uk.gov.companieshouse.presenter.account.exceptionhandler.KafkaMessageFailException;
+import uk.gov.companieshouse.presenter.account.exceptionhandler.KafkaMessageInterruptedException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
+import uk.gov.companieshouse.presenter.account.service.KafkaProducerService;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,9 +46,15 @@ class PresenterAccountControllerTest {
     @Mock
     Logger logger;
 
+    @Mock
+    KafkaProducerService kafkaProducerService;
+
     @BeforeEach
     void setUp() {
-        presenterAccountController = new PresenterAccountController(presenterAccountService, logger);
+        presenterAccountController = new PresenterAccountController(
+                presenterAccountService,
+                logger,
+                kafkaProducerService);
     }
 
     @Test
@@ -58,12 +69,13 @@ class PresenterAccountControllerTest {
     void testCreatePresenterAccountSuccessResponse() {
         final String id = "id";
         when(presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest)).thenReturn(id);
-
         var response = presenterAccountController.createPresenterAccount(presenterAccountDetailsRequest);
         var header = response.getHeaders().getFirst("Location");
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
         assertNotNull(header);
         assertTrue(header.contains(PRESENTER_ACCOUNT + id));
+        // Make sure that KafkaProducerService is being called.
+        verify(kafkaProducerService, times(1)).sendPresenterAccountId(id);
     }
 
     // NOT TESTING MISSING NON-OPTIONAL PARAMETER AS THEY ARE CATCH BY MODEL.
@@ -92,6 +104,26 @@ class PresenterAccountControllerTest {
     @DisplayName("Exception thrown returns 500")
     void testThrowExcetionInternalError() {
         Exception e = new Exception();
+
+        ResponseEntity<?> response = presenterAccountController.exceptionHandler(e);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @Test
+    @DisplayName("KafkaMessageFailException thrown returns 500")
+    void testKafkaMessageFailException() {
+        KafkaMessageFailException e = new KafkaMessageFailException();
+
+        ResponseEntity<?> response = presenterAccountController.exceptionHandler(e);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @Test
+    @DisplayName("KafkaMessageInterruptedException thrown returns 500")
+    void testKafkaMessageInterruptedException() {
+        KafkaMessageInterruptedException e = new KafkaMessageInterruptedException();
 
         ResponseEntity<?> response = presenterAccountController.exceptionHandler(e);
 
