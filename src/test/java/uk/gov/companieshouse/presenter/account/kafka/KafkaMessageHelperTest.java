@@ -42,6 +42,9 @@ class KafkaMessageHelperTest {
     private PresenterCreatedSerialiser serialiser;
 
     @Mock
+    private Future<RecordMetadata> messageFuture;
+
+    @Mock
     private Logger logger;
 
     private KafkaMessageHelper messageHelper;
@@ -99,7 +102,6 @@ class KafkaMessageHelperTest {
     @DisplayName("Sent presenter create message")
     void testSendPresenterCreateMessage() {
         Message message = new Message();
-        Future<RecordMetadata> messageFuture = mock(Future.class);
         when(kafkaProducer.sendAndReturnFuture(message)).thenReturn(messageFuture);
         messageHelper.sendKafkaMessage(message);
         verify(kafkaProducer, times(1)).sendAndReturnFuture(message);
@@ -109,7 +111,6 @@ class KafkaMessageHelperTest {
     @DisplayName("Sent presenter create message - Fail Exception is raised")
     void testSendPresenterCreateMessageMessageFailException() throws InterruptedException, ExecutionException {
         Message message = new Message();
-        Future<RecordMetadata> messageFuture = mock(Future.class);
         when(kafkaProducer.sendAndReturnFuture(message)).thenReturn(messageFuture);
         when(messageFuture.get()).thenThrow(ExecutionException.class);
         assertThrows(KafkaMessageFailException.class, () -> messageHelper.sendKafkaMessage(message));
@@ -119,7 +120,6 @@ class KafkaMessageHelperTest {
     @DisplayName("Sent presenter create message - Interrupted Exception is raised")
     void testSendPresenterCreateMessageMessageInterruptedException() throws InterruptedException, ExecutionException {
         Message message = new Message();
-        Future<RecordMetadata> messageFuture = mock(Future.class);
         when(kafkaProducer.sendAndReturnFuture(message)).thenReturn(messageFuture);
         when(messageFuture.get()).thenThrow(InterruptedException.class);
         assertThrows(KafkaMessageInterruptedException.class, () -> messageHelper.sendKafkaMessage(message));

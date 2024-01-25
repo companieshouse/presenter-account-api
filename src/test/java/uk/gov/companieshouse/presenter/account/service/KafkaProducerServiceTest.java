@@ -42,9 +42,9 @@ class KafkaProducerServiceTest {
     @Test
     @DisplayName("Test send presenter account id")
     void testSendPresenterAccountId() {
-        final PresenterCreated presenterCreated = mock(PresenterCreated.class);
+        final PresenterCreated presenterCreated = new PresenterCreated();
         final byte[] value = new byte[] {};
-        final Message message = mock(Message.class);
+        final Message message = new Message();
         when(messageHelper.createPresenterCreated(ID)).thenReturn(presenterCreated);
         when(messageHelper.serializePresenterCreated(presenterCreated)).thenReturn(value);
         when(messageHelper.createMessage(TARGET_TOPIC, value)).thenReturn(message);
