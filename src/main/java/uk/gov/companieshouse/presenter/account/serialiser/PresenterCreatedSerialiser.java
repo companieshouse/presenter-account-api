@@ -16,7 +16,7 @@ import uk.gov.companieshouse.presenter_account.PresenterCreated;
 public class PresenterCreatedSerialiser {
 
     public byte[] serialize(final PresenterCreated data) {
-        // Copy from kafka-models README
+        // Copied from kafka-models README
         final DatumWriter<PresenterCreated> datumWriter = new SpecificDatumWriter<>();
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             final Encoder encoder = EncoderFactory.get().binaryEncoder(out, null);
