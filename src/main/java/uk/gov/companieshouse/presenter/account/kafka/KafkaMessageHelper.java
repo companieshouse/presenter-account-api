@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.presenter.account.kafka;
 
 import java.time.ZoneOffset;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -45,21 +44,16 @@ public class KafkaMessageHelper {
     }
 
     public PresenterCreated createPresenterCreated(final String presenterAccountDetailId) {
-        Objects.requireNonNull(presenterAccountDetailId);
-
         final var kafkaRecord = new PresenterCreated();
         kafkaRecord.setId(presenterAccountDetailId);
         return kafkaRecord;
     }
 
     public byte[] serializePresenterCreated(final PresenterCreated presenterCreated) {
-        Objects.requireNonNull(presenterCreated);
         return serialiser.serialize(presenterCreated);
     }
 
     public Message createMessage(final String topic, final byte[] value) {
-        Objects.requireNonNull(topic);
-        Objects.requireNonNull(value);
 
         if (topic.isBlank()) {
             throw new IllegalArgumentException("Topic can not be empty");
