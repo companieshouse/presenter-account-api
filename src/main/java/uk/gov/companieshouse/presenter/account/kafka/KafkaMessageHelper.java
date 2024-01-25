@@ -21,7 +21,7 @@ import uk.gov.companieshouse.presenter_account.PresenterCreated;
 @Component
 public class KafkaMessageHelper {
 
-    private static final String KAFKA_INTERRUPT_MESSAGE = "Kafka message interrupted while senting";
+    private static final String KAFKA_INTERRUPT_MESSAGE = "Kafka message interrupted while sending";
     private static final String ERROR_MESSAGE = "Failed to send Kafka message";
 
     private final CHKafkaProducer kafkaProducer;
