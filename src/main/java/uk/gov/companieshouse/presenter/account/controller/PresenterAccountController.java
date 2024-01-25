@@ -16,19 +16,26 @@ import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
+import uk.gov.companieshouse.presenter.account.service.KafkaProducerService;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
 
 @Controller
 @RequestMapping("/presenter-account")
 public class PresenterAccountController {
 
-    private Logger logger;
-    private PresenterAccountService presenterAccountService;
+    private final Logger logger;
+    private final PresenterAccountService presenterAccountService;
+
+    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
-    public PresenterAccountController(PresenterAccountService presenterAccountService, Logger logger) {
+    public PresenterAccountController(
+            final PresenterAccountService presenterAccountService,
+            final Logger logger,
+            final KafkaProducerService kafkaProducerService) {
         this.logger = logger;
         this.presenterAccountService = presenterAccountService;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @GetMapping("/healthcheck")
@@ -37,15 +44,19 @@ public class PresenterAccountController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> createPresenterAccount(@RequestBody PresenterAccountDetailsRequest presenterAccountDetailsRequest) {
-        String id = presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest);
+    public ResponseEntity<String> createPresenterAccount(
+            @RequestBody final PresenterAccountDetailsRequest presenterAccountDetailsRequest) {
+        final String id = presenterAccountService.createPresenterAccount(presenterAccountDetailsRequest);
+        kafkaProducerService.sendPresenterAccountId(id);
         final String uri = "/presenter-account/" + id;
         return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @GetMapping("/{presenterDetailsId}")
-    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(@PathVariable("presenterDetailsId") String presenterDetailsId) {
-        Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService.getPresenterAccount(presenterDetailsId);
+    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(
+            @PathVariable("presenterDetailsId") final String presenterDetailsId) {
+        final Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService
+                .getPresenterAccount(presenterDetailsId);
         return presenterAccountDetailsOptional
                 .map(presenterAccountDetails -> ResponseEntity.ok().body(presenterAccountDetails))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -63,7 +74,7 @@ public class PresenterAccountController {
     }
 
     @ExceptionHandler
-    ResponseEntity<String> exceptionHandler(Exception ex) {
+    ResponseEntity<String> exceptionHandler(final Exception ex) {
         logger.error("Unhandled exception", ex);
         return ResponseEntity.internalServerError().build();
     }
