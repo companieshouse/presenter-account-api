@@ -2,12 +2,13 @@ package uk.gov.companieshouse.presenter.account.model;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import org.springframework.lang.Nullable;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
 
 public record PresenterAccountName(
-        @Field("forename") String forename,
-        @Field("surname") String surname) {
+        @Field("forename") @Nullable String forename,
+        @Field("surname") @Nullable String surname) {
 
     private static final int MAX_FORENAME_LENGTH = 32;
     private static final int MAX_SURNAME_LENGTH = 40;
@@ -18,11 +19,13 @@ public record PresenterAccountName(
     }
 
     private String validateName(final String name, final int maxLength) {
-        if (StringValidator.validateString(name, maxLength)) {
+        // CHS user profiles often don't have associated forename and surnames
+        // Therefore null is a valid value for the name field.
+        if (name == null || StringValidator.validateString(name, maxLength)) {
             return name;
-        } else {
-            throw new ValidationException("Invalid Name");
         }
+
+        throw new ValidationException("Invalid Name");
     }
 
     @Override

@@ -3,6 +3,7 @@ package uk.gov.companieshouse.presenter.account.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,5 +64,15 @@ class PresenterAccountNameTest {
         });
         assertTrue(firstNameException.getMessage().contains("Name"));
         assertTrue(surnameException.getMessage().contains("Name"));
+    }
+
+    @Test
+    @DisplayName("Allows for null forename and surname in PresenterAccountName")
+    void testAllowsForNullForenameAndSurname() {
+        try {
+            new PresenterAccountName(null, null);
+        } catch (Exception e) {
+            fail("Creation of PresenterAccountName should not fail with null forename and surname");
+        }
     }
 }
