@@ -21,11 +21,7 @@ public record PresenterAccountName(
     private String validateName(final String name, final int maxLength) {
         // CHS user profiles often don't have associated forename and surnames
         // Therefore null is a valid value for the name field.
-        if (name == null) {
-            return null;
-        }
-
-        if (StringValidator.validateString(name, maxLength)) {
+        if (name == null || StringValidator.validateString(name, maxLength)) {
             return name;
         }
 
