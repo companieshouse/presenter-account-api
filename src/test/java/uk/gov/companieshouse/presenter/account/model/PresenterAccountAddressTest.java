@@ -69,7 +69,7 @@ class PresenterAccountAddressTest {
         Exception e = assertThrows(ValidationException.class, () -> {
             new PresenterAccountAddress(PREMISES, FIRST_LINE, SECOND_LINE, "", COUNTRY, POSTCODE);
         });
-        assertTrue(e.getMessage().contains("town or city"));
+        assertTrue(e.getMessage().contains("townOrCity"));
     }
 
     @Test
