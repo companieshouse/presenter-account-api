@@ -51,11 +51,7 @@ public record PresenterAccountAddress(
     }
 
     private String validatedTownOrCity(final String line) {
-        if (line == null || line.isBlank()) {
-            return "";
-        } else {
-            return getValidatedLine(line, COUNTY_MAX_LENGTH, "townOrCity failed validation");
-        }
+        return getValidatedLine(line, COUNTY_MAX_LENGTH, "townOrCity failed validation");
     }
 
     private String validateCountry(final String line) {
