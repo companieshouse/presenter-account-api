@@ -15,7 +15,7 @@ public record PresenterAccountAddress(
     private static final int PREMISES_MAX_LENGTH = 40;
     private static final int LINE_1_MAX_LENGTH = 40;
     private static final int LINE_2_MAX_LENGTH = 40;
-    private static final int COUNTY_MAX_LENGTH = 40;
+    private static final int TOWN_OR_CITY_MAX_LENGTH = 40;
     private static final int COUNTRY_MAX_LENGTH = 40;
     private static final int POSTCODE_MAX_LENGTH = 10;
 
@@ -51,7 +51,7 @@ public record PresenterAccountAddress(
     }
 
     private String validatedTownOrCity(final String line) {
-        return getValidatedLine(line, COUNTY_MAX_LENGTH, "townOrCity failed validation");
+        return getValidatedLine(line, TOWN_OR_CITY_MAX_LENGTH, "townOrCity failed validation");
     }
 
     private String validateCountry(final String line) {
