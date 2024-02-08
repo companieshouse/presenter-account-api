@@ -18,6 +18,7 @@ class PresenterAccountAddressMapperTest {
 
     private final static String premises = "a";
     private final static String line1 = "b";
+    private final static String townOrCity = "t";
     private final static String country = "e";
     private final static String postcode = "f";
 
@@ -29,12 +30,12 @@ class PresenterAccountAddressMapperTest {
     @Test
     @DisplayName("Mapping from presenter address to presenter account address")
     void mapperTest() {
-        PresenterAddressRequest address = new PresenterAddressRequest(premises, line1, null, null, country, postcode);
+        PresenterAddressRequest address = new PresenterAddressRequest(premises, line1, null, townOrCity, country, postcode);
         PresenterAccountAddress accountAddress = mapper.map(address);
         assertEquals(premises, accountAddress.premises());
         assertEquals(line1, accountAddress.addressLine1());
         assertEquals("", accountAddress.addressLine2());
-        assertEquals("", accountAddress.townOrCity());
+        assertEquals(townOrCity, accountAddress.townOrCity());
         assertEquals(country, accountAddress.country());
         assertEquals(postcode, accountAddress.postcode());
     }
