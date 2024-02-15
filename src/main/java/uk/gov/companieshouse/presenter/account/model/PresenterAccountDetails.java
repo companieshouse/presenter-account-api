@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.validation.utils.EmailValidator;
-import uk.gov.companieshouse.presenter.account.validation.utils.StringValidator;
 
 @Document("presenter_account")
 public record PresenterAccountDetails(
@@ -34,10 +33,10 @@ public record PresenterAccountDetails(
 
     private String validateUserId(final String id) {
 
-        if (StringValidator.validateString(id, USER_ID_LENGTH)) {
+        if (isIdCorrectFormat(id)) {
             return id;
         } else {
-            throw new ValidationException("user id failed validation");
+            throw new ValidationException("user id is invalid");
         }
     }
 
@@ -64,6 +63,10 @@ public record PresenterAccountDetails(
         } else {
             throw new ValidationException("presenter address can not be null");
         }
+    }
+
+    private boolean isIdCorrectFormat(String id){
+        return id != null && !id.isBlank() && id.length() <= USER_ID_LENGTH;
     }
 
     @Override
