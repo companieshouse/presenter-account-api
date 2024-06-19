@@ -306,6 +306,11 @@
                 <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <!-- Usage: Building Docker and OCI images-->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+            </plugin>
             <!-- Usage: During integration-test and verify phases of the build lifecycle
              to execute the integration tests of an application	-->
             <plugin>
