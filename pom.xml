@@ -310,6 +310,12 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>amazoncorretto:21</image>
+                    </from>
+                    <!-- Additional configuration options -->
+                </configuration>
             </plugin>
             <!-- Usage: During integration-test and verify phases of the build lifecycle
              to execute the integration tests of an application	-->
