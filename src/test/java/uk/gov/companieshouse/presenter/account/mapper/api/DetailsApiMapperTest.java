@@ -36,6 +36,7 @@ class DetailsApiMapperTest {
         String presenterDetailsId = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
         String userId = "user123";
         String email = "example@example.com";
+        String lang = "en";
         var name = new PresenterAccountName("John", "Doe");
         var address = new PresenterAccountAddress("premises",
                 "addressLine1",
@@ -44,7 +45,7 @@ class DetailsApiMapperTest {
                 "Country",
                 "Postcode");
 
-        var presenterAccountDetails = new PresenterAccountDetails(presenterDetailsId, userId, email, name, address);
+        var presenterAccountDetails = new PresenterAccountDetails(presenterDetailsId, userId, lang, email, name, address);
 
         when(nameMapper.map(name)).thenReturn(PresenterAccountNameApiBuilder.createPresenterAccountNameApi()
                 .withForename("John")

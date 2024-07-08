@@ -11,6 +11,7 @@ import uk.gov.companieshouse.presenter.account.validation.utils.EmailValidator;
 public record PresenterAccountDetails(
         @Id String presenterDetailsId,
         @Field("chsUserId") String userId,
+        @Field("lang") String lang,
         @Field("email") String email,
         @Field("name") PresenterAccountName name,
         @Field("address") PresenterAccountAddress address) {
@@ -21,11 +22,13 @@ public record PresenterAccountDetails(
     public PresenterAccountDetails(
             final String presenterDetailsId,
             final String userId,
+            final String lang,
             final String email,
             final PresenterAccountName name,
             final PresenterAccountAddress address) {
         this.presenterDetailsId = presenterDetailsId;
         this.userId = validateUserId(userId);
+        this.lang = validateLang(lang);
         this.email = validateEmail(email);
         this.name = validateName(name);
         this.address = validateAddress(address);
@@ -46,6 +49,15 @@ public record PresenterAccountDetails(
             return email;
         } else {
             throw new ValidationException("email failed validation");
+        }
+    }
+
+    private String validateLang(final String lang) {
+
+        if (lang.equalsIgnoreCase("en") || lang.equalsIgnoreCase("cy")) {
+            return lang;
+        } else {
+            throw new ValidationException("language validation is failed");
         }
     }
 

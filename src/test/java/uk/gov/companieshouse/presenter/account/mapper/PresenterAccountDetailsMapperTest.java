@@ -37,6 +37,7 @@ class PresenterAccountDetailsMapperTest {
     private final static String PRESENTER_ID = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
     private final static String USER_ID = "a";
     private final static String EMAIL = "a@a.a";
+    private final static String LANG = "en";
 
     @BeforeEach
     void before() {
@@ -48,7 +49,7 @@ class PresenterAccountDetailsMapperTest {
     void mapperTest() {
         PresenterNameRequest name = mock(PresenterNameRequest.class);
         PresenterAddressRequest address = mock(PresenterAddressRequest.class);
-        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(USER_ID, EMAIL, name, address);
+        PresenterAccountDetailsRequest request = new PresenterAccountDetailsRequest(USER_ID, LANG, EMAIL, name, address);
 
         when(nameMapper.map(name)).thenReturn(mock(PresenterAccountName.class));
         when(addressMapper.map(address)).thenReturn(mock(PresenterAccountAddress.class));
@@ -57,6 +58,7 @@ class PresenterAccountDetailsMapperTest {
 
         assertEquals(PRESENTER_ID, details.presenterDetailsId());
         assertEquals(USER_ID, details.userId());
+        assertEquals(LANG, details.lang());
         assertEquals(EMAIL, details.email());
         assertEquals(address.addressLine1(), details.address().addressLine1());
         assertEquals(name.forename(), details.name().forename());

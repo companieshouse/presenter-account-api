@@ -33,6 +33,7 @@ public class PresenterAccountDetailsMapper
             return new PresenterAccountDetails(
                     id,
                     value.userId(),
+                    value.lang(),
                     value.email(),
                     name,
                     address);
