@@ -13,6 +13,7 @@ class PresenterAccountDetailsTest {
     private static final String PRESENTER_ID = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
     private static final String EMAIL = "test@test.test";
     private static final String USER_ID = "userid";
+    private static final String LANG = "en";
     private static final PresenterAccountName NAME = new PresenterAccountName("FIRST", "SECOND");
     private static final PresenterAccountAddress ADDRESS = new PresenterAccountAddress("a", "b", "c", "d", "e", "f");
 
@@ -21,26 +22,30 @@ class PresenterAccountDetailsTest {
     @Test
     @DisplayName("Valid PresenterAccountDetails")
     void testValidPresenterAccountDetails() {
-        presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL, NAME, ADDRESS);
+        presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, NAME, ADDRESS);
     }
 
     @Test
     @DisplayName("Throw ValidationException. Invalid PresenterAccountDetails empty or null parameters")
     void testInvalidPresenterAccountDetailsEmptyParameters() {
         Exception idException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, "", EMAIL, NAME, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, "", LANG, EMAIL, NAME, ADDRESS);
+        });
+        Exception langException = assertThrows(ValidationException.class, () -> {
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, "", EMAIL, NAME, ADDRESS);
         });
         Exception emailException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, "", NAME, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, "", NAME, ADDRESS);
         });
         Exception nameException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL, null, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, null, ADDRESS);
         });
         Exception addressException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL, NAME, null);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, NAME, null);
         });
 
         assertTrue(idException.getMessage().contains("user"));
+        assertTrue(langException.getMessage().contains("lang"));
         assertTrue(emailException.getMessage().contains("email"));
         assertTrue(nameException.getMessage().contains("name"));
         assertTrue(addressException.getMessage().contains("address"));

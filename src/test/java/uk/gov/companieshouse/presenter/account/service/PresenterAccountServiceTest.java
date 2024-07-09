@@ -36,6 +36,7 @@ class PresenterAccountServiceTest {
     private static final String PRESENTER_ID = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
     private static final String EMAIL = "test@test.test";
     private static final String USER_ID = "userid";
+    private static final String LANG = "en";
     private static final PresenterNameRequest NAME = new PresenterNameRequest("FIRST", "SECOND");
     private static final PresenterAccountName ACCOUNT_NAME = new PresenterAccountName("FIRST", "SECOND");
     private static final PresenterAddressRequest ADDRESS = new PresenterAddressRequest("a", "b", "c", "d", "e", "f");
@@ -71,9 +72,9 @@ class PresenterAccountServiceTest {
     @Test
     @DisplayName("Create presenter account details in mongo db")
     void testCreatePresenterAccount() {
-        PresenterAccountDetails presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, EMAIL,
+        PresenterAccountDetails presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL,
                 ACCOUNT_NAME, ACCOUNT_ADDRESS);
-        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, EMAIL, NAME,
+        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, LANG, EMAIL, NAME,
                 ADDRESS);
         when(detailsMapper.map(PRESENTER_ID, presenterRequest)).thenReturn(presenterDetails);
         when(idGenerator.createUUID()).thenReturn(PRESENTER_ID);
@@ -88,6 +89,7 @@ class PresenterAccountServiceTest {
         String presenterDetailsId = PRESENTER_ID;
         PresenterAccountDetails accountDetails = new PresenterAccountDetails(presenterDetailsId,
                 "userId",
+                "en",
                 "test@example.com",
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",
