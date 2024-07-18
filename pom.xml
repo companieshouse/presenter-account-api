@@ -5,7 +5,7 @@
     <parent>
         <groupId>uk.gov.companieshouse</groupId>
         <artifactId>companies-house-parent</artifactId>
-        <version>2.1.5</version>
+        <version>2.1.6</version>
     </parent>
     <artifactId>presenter-account-api</artifactId>
     <version>unversioned</version>
@@ -40,11 +40,11 @@
 
         <!-- internal -->
         <structured-logging.version>3.0.1</structured-logging.version>
-        <api-security-java-version>2.0.3</api-security-java-version>
+        <api-security-java-version>2.0.5</api-security-java-version>
         <api-sdk-manager-java-library.version>3.0.4</api-sdk-manager-java-library.version>
-        <private-api-sdk-java.version>4.0.165</private-api-sdk-java.version>
-        <ch-kafka.version>3.0.1</ch-kafka.version>
-        <kafka-models.version>3.0.7</kafka-models.version>
+        <private-api-sdk-java.version>4.0.171</private-api-sdk-java.version>
+        <ch-kafka.version>3.0.2</ch-kafka.version>
+        <kafka-models.version>3.0.8</kafka-models.version>
 
         <!--sonar configuration-->
         <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
