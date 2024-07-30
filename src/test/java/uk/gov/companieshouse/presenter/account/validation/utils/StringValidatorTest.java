@@ -60,4 +60,10 @@ class StringValidatorTest {
         assertFalse(StringValidator.validateString(NORMAL_STRING, MIN_LENGTH));
     }
 
+    @Test
+    @DisplayName("Failed string Validation when string is null")
+    void testStringIsNull() {
+        assertFalse(StringValidator.validateString(null, BIG_LENGTH));
+    }
+
 }

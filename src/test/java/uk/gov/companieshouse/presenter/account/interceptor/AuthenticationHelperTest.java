@@ -63,6 +63,11 @@ class AuthenticationHelperTest {
     }
 
     @Test
+    void validTokenPermissionsWithNullToken() {
+        assertFalse(testHelper.validTokenPermissions(null, PRESENTER_KEY, CREATE));
+    }
+
+    @Test
     void validTokenPermissionsNoUserPresenter() {
         assertFalse(testHelper.validTokenPermissions(tokenPermissions, PRESENTER_KEY, TOKEN_PERMISSIONS_ATTRIBUTE));
     }

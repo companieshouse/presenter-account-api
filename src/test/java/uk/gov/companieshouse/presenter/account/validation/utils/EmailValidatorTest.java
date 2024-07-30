@@ -70,4 +70,10 @@ class EmailValidatorTest {
     void testEmailLowLimitWithEmailFailed() {
         assertFalse(EmailValidator.validateEmail(EMAIL, MIN_LENGTH));
     }
+
+    @Test
+    @DisplayName("Failed Email Validation when email is null")
+    void testNullEmailShouldFailed() {
+        assertFalse(EmailValidator.validateEmail(null, LENGTH));
+    }
 }

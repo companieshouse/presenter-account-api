@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.presenter.account.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -74,5 +75,19 @@ class PresenterAccountNameTest {
         } catch (Exception e) {
             fail("Creation of PresenterAccountName should not fail with null forename and surname");
         }
+    }
+
+    @Test
+    @DisplayName("Test that toString is safe")
+    void testToString() {
+        String firstString = "safe123";
+        String lastString = "last";
+
+        PresenterAccountName presenterAccountName = new PresenterAccountName(firstString, lastString);
+
+        String presenterAccountNameString = presenterAccountName.toString();
+        assertTrue(presenterAccountNameString.toString().contains("PresenterName"));
+        assertFalse(presenterAccountNameString.toString().contains(firstString));
+        assertFalse(presenterAccountNameString.toString().contains(lastString));
     }
 }
