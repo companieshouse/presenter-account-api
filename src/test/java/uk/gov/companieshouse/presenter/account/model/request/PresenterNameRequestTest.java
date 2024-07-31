@@ -11,8 +11,8 @@ class PresenterAccountRequestTest {
     @DisplayName("Test that toString is safe")
     void testToString() {
         String presenterAccountNameToString = "PresenterAccountName";
-        String firstString = "safe123";
-        String lastString = "last";
+        String firstString = "First";
+        String lastString = "Second";
 
         PresenterNameRequest presenterAccountName = new PresenterNameRequest(firstString, lastString);
 

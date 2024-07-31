@@ -147,8 +147,8 @@ class PresenterAccountAddressTest {
         String line1String = "23 street";
         String line2String = "string 2";
         String townString = "TOWN AND CITY";
-        String countryString = "country123";
-        String postcodeString = "AAAAAAA";
+        String countryString = "UNITED KINGDOM";
+        String postcodeString = "AA1 1AAA";
 
         address = new PresenterAccountAddress(premiseString, line1String, line2String, townString, countryString, postcodeString);
 

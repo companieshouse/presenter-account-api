@@ -12,14 +12,14 @@ public class PresenterAccountDetailsRequestTest {
     @DisplayName("Test that toString is safe")
     void testToString() {
         String presenterRequestToString = "PresenterRequest";
-        String firstString = "adfbeif";
+        String firstString = "One";
         String lastString = "ĞĠĢĤĦÌÍÎÏĨĪ";
         
-        String premiseString = "carrot";
-        String line1String = "cabbage";
-        String line2String = "cucumber";
-        String townString = "BIRD";
-        String countryString = "MARS";
+        String premiseString = "Flat";
+        String line1String = "Building";
+        String line2String = "Line Address";
+        String townString = "Village Town";
+        String countryString = "CountryString";
         String postcodeString = "ZZ00AA";
         
         String userId = "AAABB134";

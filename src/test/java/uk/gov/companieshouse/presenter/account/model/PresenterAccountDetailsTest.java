@@ -56,13 +56,13 @@ class PresenterAccountDetailsTest {
     @DisplayName("Test that toString is safe")
     void testToString() {
         String presenterAccountAddressString = "PresenterAccountDetail";
-        String first = "ABC123";
-        String second = "321CBA";
+        String first = "Afirstname";
+        String second = "Last-Name";
         String premiseString = "1";
         String line1String = "foo road";
         String line2String = "bar";
         String townString = "CITY";
-        String countryString = "123456";
+        String countryString = "Country";
         String postcodeString = "AB12CD";
 
         String presenterId = "9c60fa56-d5c0-4c34-8e53-000000000";
