@@ -12,7 +12,7 @@ public class PresenterAccountDetailsRequestTest {
     @DisplayName("Test that toString is safe")
     void testToString() {
         String presenterRequestToString = "PresenterRequest";
-        String firstString = ",.adfbeif";
+        String firstString = "adfbeif";
         String lastString = "ĞĠĢĤĦÌÍÎÏĨĪ";
         
         String premiseString = "carrot";
@@ -20,7 +20,7 @@ public class PresenterAccountDetailsRequestTest {
         String line2String = "cucumber";
         String townString = "BIRD";
         String countryString = "MARS";
-        String postcodeString = "ĞĠĢĤĦÌÍ";
+        String postcodeString = "ZZ00AA";
         
         String userId = "AAABB134";
         String lang = "en";
