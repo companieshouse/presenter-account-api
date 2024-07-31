@@ -10,13 +10,14 @@ class PresenterAccountRequestTest {
     @Test
     @DisplayName("Test that toString is safe")
     void testToString() {
+        String presenterAccountNameToString = "PresenterAccountName";
         String firstString = "safe123";
         String lastString = "last";
 
         PresenterNameRequest presenterAccountName = new PresenterNameRequest(firstString, lastString);
 
         String presenterAccountNameString = presenterAccountName.toString();
-        assertTrue(presenterAccountNameString.toString().contains("PresenterAccountName"));
+        assertTrue(presenterAccountNameString.toString().contains(presenterAccountNameToString));
         assertFalse(presenterAccountNameString.toString().contains(firstString));
         assertFalse(presenterAccountNameString.toString().contains(lastString));
     }

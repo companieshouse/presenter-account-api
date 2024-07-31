@@ -1,10 +1,10 @@
 package uk.gov.companieshouse.presenter.account.model;
 
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
@@ -21,11 +21,6 @@ class PresenterAccountAddressTest {
     private final static String INVALID_STRING = "bad string ~";
 
     PresenterAccountAddress address;
-
-    @BeforeEach
-    void BeforeEach() {
-
-    }
 
     @Test
     @DisplayName("Create a valid presenter address")
@@ -142,5 +137,27 @@ class PresenterAccountAddressTest {
             new PresenterAccountAddress(PREMISES, INVALID_STRING, SECOND_LINE, TOWN_OR_CITY, COUNTRY, POSTCODE);
         });
         assertTrue(e.getMessage().contains("address line 1"));
+    }
+
+    @Test
+    @DisplayName("Test that toString is safe")
+    void testToString() {
+        String presenterAccountAddressString = "PresenterAccountAddress";
+        String premiseString = "A1";
+        String line1String = "23 street";
+        String line2String = "string 2";
+        String townString = "TOWN AND CITY";
+        String countryString = "country123";
+        String postcodeString = "AAAAAAA";
+
+        address = new PresenterAccountAddress(premiseString, line1String, line2String, townString, countryString, postcodeString);
+
+        assertTrue(address.toString().contains(presenterAccountAddressString));
+        assertFalse(address.toString().contains(premiseString));
+        assertFalse(address.toString().contains(line1String));
+        assertFalse(address.toString().contains(line2String));
+        assertFalse(address.toString().contains(townString));
+        assertFalse(address.toString().contains(countryString));
+        assertFalse(address.toString().contains(postcodeString));
     }
 }

@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.presenter.account.model;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -49,6 +50,41 @@ class PresenterAccountDetailsTest {
         assertTrue(emailException.getMessage().contains("email"));
         assertTrue(nameException.getMessage().contains("name"));
         assertTrue(addressException.getMessage().contains("address"));
+    }
+
+    @Test
+    @DisplayName("Test that toString is safe")
+    void testToString() {
+        String presenterAccountAddressString = "PresenterAccountDetail";
+        String first = "ABC123";
+        String second = "321CBA";
+        String premiseString = "1";
+        String line1String = "foo road";
+        String line2String = "bar";
+        String townString = "CITY";
+        String countryString = "123456";
+        String postcodeString = "AB12CD";
+
+        String presenterId = "9c60fa56-d5c0-4c34-8e53-000000000";
+        String email = "test.fail09876542345@test.test";
+        String userId = "123";
+        String lang = "cy";
+        PresenterAccountName NAME = new PresenterAccountName(first, second);
+        PresenterAccountAddress ADDRESS = new PresenterAccountAddress(premiseString, line1String, line2String, townString, countryString, postcodeString);
+
+        presenterDetails = new PresenterAccountDetails(presenterId, userId, lang, email, NAME, ADDRESS);
+
+        assertTrue(presenterDetails.toString().contains(presenterAccountAddressString));
+        assertFalse(presenterDetails.toString().contains(premiseString));
+        assertFalse(presenterDetails.toString().contains(line2String));
+        assertFalse(presenterDetails.toString().contains(line1String));
+        assertFalse(presenterDetails.toString().contains(presenterId));
+        assertFalse(presenterDetails.toString().contains(email));
+        assertFalse(presenterDetails.toString().contains(userId));
+        assertFalse(presenterDetails.toString().contains(lang));
+        assertFalse(presenterDetails.toString().contains(townString));
+        assertFalse(presenterDetails.toString().contains(countryString));
+        assertFalse(presenterDetails.toString().contains(postcodeString));
     }
 
 }
