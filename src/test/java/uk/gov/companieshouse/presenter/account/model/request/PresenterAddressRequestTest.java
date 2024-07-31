@@ -12,8 +12,8 @@ public class PresenterAddressRequestTest {
     @DisplayName("Test that toString is safe")
     void testToString() {
         String presenterAccountAddressString = "PresenterAccountAddress";
-        String premiseString = "safe123";
-        String line1String = "line12";
+        String premiseString = "Safe";
+        String line1String = "Safe-Last";
         String line2String = "foo";
         String townString = "town";
         String countryString = "Country";

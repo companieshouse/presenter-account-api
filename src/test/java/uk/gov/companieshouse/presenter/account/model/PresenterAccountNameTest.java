@@ -80,8 +80,8 @@ class PresenterAccountNameTest {
     @Test
     @DisplayName("Test that toString is safe")
     void testToString() {
-        String firstString = "safe123";
-        String lastString = "last";
+        String firstString = "Safe";
+        String lastString = "Last";
 
         PresenterAccountName presenterAccountName = new PresenterAccountName(firstString, lastString);
 
