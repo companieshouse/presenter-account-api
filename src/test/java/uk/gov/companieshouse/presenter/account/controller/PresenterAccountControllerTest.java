@@ -24,6 +24,7 @@ import uk.gov.companieshouse.presenter.account.exceptionhandler.KafkaMessageFail
 import uk.gov.companieshouse.presenter.account.exceptionhandler.KafkaMessageInterruptedException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountCompany;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
@@ -139,6 +140,7 @@ class PresenterAccountControllerTest {
                 "userId",
                 "en",
                 "test@example.com",
+                new PresenterAccountCompany("company Name", "00006400"),
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",
                         "addressLine1",

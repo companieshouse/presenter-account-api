@@ -11,12 +11,14 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 public class DetailsApiMapper implements Mapper<PresenterAccountDetailsApi, PresenterAccountDetails> {
     AddressApiMapper addressMapper;
     NameApiMapper nameMapper;
+    CompanyApiMapper companyMapper;
 
 
     @Autowired
-    public DetailsApiMapper(AddressApiMapper addressMapper, NameApiMapper nameMapper) {
+    public DetailsApiMapper(AddressApiMapper addressMapper, NameApiMapper nameMapper, CompanyApiMapper companyMapper) {
         this.addressMapper = addressMapper;
         this.nameMapper = nameMapper;
+        this.companyMapper = companyMapper;
     }
 
     @Override
@@ -25,6 +27,7 @@ public class DetailsApiMapper implements Mapper<PresenterAccountDetailsApi, Pres
                 .withUserId(value.userId())
                 .withPresenterDetailsId(value.presenterDetailsId())
                 .withEmail(value.email())
+                .withCompany(companyMapper.map(value.companyDetails()))
                 .withName(nameMapper.map(value.name()))
                 .withAddress(addressMapper.map(value.address()))
                 .build();

@@ -13,6 +13,7 @@ public record PresenterAccountDetails(
         @Field("chsUserId") String userId,
         @Field("lang") String lang,
         @Field("email") String email,
+        @Field("companyDetails") PresenterAccountCompany companyDetails,
         @Field("name") PresenterAccountName name,
         @Field("address") PresenterAccountAddress address) {
 
@@ -24,12 +25,14 @@ public record PresenterAccountDetails(
             final String userId,
             final String lang,
             final String email,
+            final PresenterAccountCompany companyDetails,
             final PresenterAccountName name,
             final PresenterAccountAddress address) {
         this.presenterDetailsId = presenterDetailsId;
         this.userId = validateUserId(userId);
         this.lang = validateLang(lang);
         this.email = validateEmail(email);
+        this.companyDetails = validateCompany(companyDetails);
         this.name = validateName(name);
         this.address = validateAddress(address);
     }
@@ -66,6 +69,14 @@ public record PresenterAccountDetails(
             return name;
         } else {
             throw new ValidationException("presenter name can not be null");
+        }
+    }
+
+    private PresenterAccountCompany validateCompany(final PresenterAccountCompany company) {
+        if (company != null) {
+            return company;
+        } else {
+            throw new ValidationException("presenter company can not be null");
         }
     }
 

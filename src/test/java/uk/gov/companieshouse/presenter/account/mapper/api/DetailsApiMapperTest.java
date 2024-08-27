@@ -8,8 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountAddressApiBuilder;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountCompanyApiBuilder;
 import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountNameApiBuilder;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountCompany;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
 
@@ -21,12 +23,15 @@ class DetailsApiMapperTest {
     @Mock
     private NameApiMapper nameMapper;
 
+    @Mock
+    private CompanyApiMapper companyMapper;
+
     private DetailsApiMapper detailsApiMapper;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        detailsApiMapper = new DetailsApiMapper(addressMapper, nameMapper);
+        detailsApiMapper = new DetailsApiMapper(addressMapper, nameMapper, companyMapper);
     }
 
     @Test
@@ -36,8 +41,11 @@ class DetailsApiMapperTest {
         String presenterDetailsId = "9c60fa56-d5c0-4c34-8e53-17699af1191f";
         String userId = "user123";
         String email = "example@example.com";
+        String companyName = "ĀĂĄÆǼ Test";
+        String companyNumber = null;
         String lang = "en";
         var name = new PresenterAccountName("John", "Doe");
+        var company = new PresenterAccountCompany(companyName, companyNumber);
         var address = new PresenterAccountAddress("premises",
                 "addressLine1",
                 "addressLine2",
@@ -45,8 +53,10 @@ class DetailsApiMapperTest {
                 "Country",
                 "Postcode");
 
-        var presenterAccountDetails = new PresenterAccountDetails(presenterDetailsId, userId, lang, email, name, address);
+        var presenterAccountDetails = new PresenterAccountDetails(presenterDetailsId, userId, lang, email, company, name, address);
 
+        when(companyMapper.map(company)).thenReturn(PresenterAccountCompanyApiBuilder.createPresenterAccountCompanyApi(companyName)
+                .withCompanyNumber(companyNumber).build());
         when(nameMapper.map(name)).thenReturn(PresenterAccountNameApiBuilder.createPresenterAccountNameApi()
                 .withForename("John")
                 .withSurname("Doe").build());

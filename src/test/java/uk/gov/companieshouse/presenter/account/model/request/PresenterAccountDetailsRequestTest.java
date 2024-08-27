@@ -25,10 +25,15 @@ public class PresenterAccountDetailsRequestTest {
         String userId = "AAABB134";
         String lang = "en";
         String email = "fail.fail1@test.test";
+
+        String companyName = "12345 Company!";
+        String companyNumber = "NI999999";
+
+        PresenterCompanyRequest company = new PresenterCompanyRequest(companyName, companyNumber);
         PresenterNameRequest name = new PresenterNameRequest(firstString, lastString);
         PresenterAddressRequest country = new PresenterAddressRequest(premiseString, line1String, line2String, townString, countryString, postcodeString);
 
-        PresenterAccountDetailsRequest presenterDaDetailsRequest = new PresenterAccountDetailsRequest(userId, lang, email, name, country);
+        PresenterAccountDetailsRequest presenterDaDetailsRequest = new PresenterAccountDetailsRequest(userId, lang, email, company, name, country);
 
         String presenterAccountDetailsString = presenterDaDetailsRequest.toString();
         assertTrue(presenterAccountDetailsString.toString().contains(presenterRequestToString));
@@ -39,5 +44,7 @@ public class PresenterAccountDetailsRequestTest {
         assertFalse(presenterAccountDetailsString.toString().contains(postcodeString));
         assertFalse(presenterAccountDetailsString.toString().contains(firstString));
         assertFalse(presenterAccountDetailsString.toString().contains(lastString));
+        assertFalse(presenterAccountDetailsString.toString().contains(companyName));
+        assertFalse(presenterAccountDetailsString.toString().contains(companyNumber));
     }
 }

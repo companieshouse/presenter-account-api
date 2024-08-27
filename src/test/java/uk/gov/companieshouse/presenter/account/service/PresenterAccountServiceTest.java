@@ -23,10 +23,12 @@ import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountAd
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountDetailsMapper;
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountNameMapper;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
+import uk.gov.companieshouse.presenter.account.model.PresenterAccountCompany;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAddressRequest;
+import uk.gov.companieshouse.presenter.account.model.request.PresenterCompanyRequest;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterNameRequest;
 import uk.gov.companieshouse.presenter.account.repository.PresenterAccountRepository;
 import uk.gov.companieshouse.presenter.account.utils.IdGenerator;
@@ -37,6 +39,8 @@ class PresenterAccountServiceTest {
     private static final String EMAIL = "test@test.test";
     private static final String USER_ID = "userid";
     private static final String LANG = "en";
+    private static final PresenterCompanyRequest COMPANY = new PresenterCompanyRequest("Business name", null);
+    private static final PresenterAccountCompany ACCOUNT_COMPANY = new PresenterAccountCompany("Business name", null);
     private static final PresenterNameRequest NAME = new PresenterNameRequest("FIRST", "SECOND");
     private static final PresenterAccountName ACCOUNT_NAME = new PresenterAccountName("FIRST", "SECOND");
     private static final PresenterAddressRequest ADDRESS = new PresenterAddressRequest("a", "b", "c", "d", "e", "f");
@@ -73,8 +77,8 @@ class PresenterAccountServiceTest {
     @DisplayName("Create presenter account details in mongo db")
     void testCreatePresenterAccount() {
         PresenterAccountDetails presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL,
-                ACCOUNT_NAME, ACCOUNT_ADDRESS);
-        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, LANG, EMAIL, NAME,
+        ACCOUNT_COMPANY, ACCOUNT_NAME, ACCOUNT_ADDRESS);
+        PresenterAccountDetailsRequest presenterRequest = new PresenterAccountDetailsRequest(USER_ID, LANG, EMAIL, COMPANY, NAME,
                 ADDRESS);
         when(detailsMapper.map(PRESENTER_ID, presenterRequest)).thenReturn(presenterDetails);
         when(idGenerator.createUUID()).thenReturn(PRESENTER_ID);
@@ -91,6 +95,7 @@ class PresenterAccountServiceTest {
                 "userId",
                 "en",
                 "test@example.com",
+                new PresenterAccountCompany("Company Name 123", "12345678"),
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",
                         "addressLine1",
