@@ -22,7 +22,8 @@ public class PresenterAccountDetailsMapper
     private final Mapper<PresenterAccountName, PresenterNameRequest> nameMapper;
     private final Mapper<PresenterAccountCompany, PresenterCompanyRequest> companyMapper;
 
-    public PresenterAccountDetailsMapper(final Mapper<PresenterAccountAddress, PresenterAddressRequest> addressMapper,
+    public PresenterAccountDetailsMapper(
+            final Mapper<PresenterAccountAddress, PresenterAddressRequest> addressMapper,
             final Mapper<PresenterAccountName, PresenterNameRequest> nameMapper,
             final Mapper<PresenterAccountCompany, PresenterCompanyRequest> companyMapper) {
         this.addressMapper = addressMapper;
