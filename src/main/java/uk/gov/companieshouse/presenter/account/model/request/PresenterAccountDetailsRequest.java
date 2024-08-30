@@ -6,6 +6,7 @@ public record PresenterAccountDetailsRequest(
         @JsonProperty("userId") String userId,
         String lang,
         String email,
+        PresenterCompanyRequest company,
         PresenterNameRequest name,
         PresenterAddressRequest address) {
     @Override

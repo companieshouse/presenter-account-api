@@ -17,37 +17,42 @@ class PresenterAccountDetailsTest {
     private static final String LANG = "en";
     private static final PresenterAccountName NAME = new PresenterAccountName("FIRST", "SECOND");
     private static final PresenterAccountAddress ADDRESS = new PresenterAccountAddress("a", "b", "c", "d", "e", "f");
+    private static final PresenterAccountCompany COMPANY = new PresenterAccountCompany("company", "99991234");
 
     PresenterAccountDetails presenterDetails;
 
     @Test
     @DisplayName("Valid PresenterAccountDetails")
     void testValidPresenterAccountDetails() {
-        presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, NAME, ADDRESS);
+        presenterDetails = new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, COMPANY, NAME, ADDRESS);
     }
 
     @Test
     @DisplayName("Throw ValidationException. Invalid PresenterAccountDetails empty or null parameters")
     void testInvalidPresenterAccountDetailsEmptyParameters() {
         Exception idException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, "", LANG, EMAIL, NAME, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, "", LANG, EMAIL, COMPANY, NAME, ADDRESS);
         });
         Exception langException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, "", EMAIL, NAME, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, "", EMAIL, COMPANY, NAME, ADDRESS);
         });
         Exception emailException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, "", NAME, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, "", COMPANY, NAME, ADDRESS);
+        });
+        Exception companyException = assertThrows(ValidationException.class, () -> {
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, null, NAME, ADDRESS);
         });
         Exception nameException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, null, ADDRESS);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, COMPANY, null, ADDRESS);
         });
         Exception addressException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, NAME, null);
+            new PresenterAccountDetails(PRESENTER_ID, USER_ID, LANG, EMAIL, COMPANY, NAME, null);
         });
 
         assertTrue(idException.getMessage().contains("user"));
         assertTrue(langException.getMessage().contains("lang"));
         assertTrue(emailException.getMessage().contains("email"));
+        assertTrue(companyException.getMessage().contains("company"));
         assertTrue(nameException.getMessage().contains("name"));
         assertTrue(addressException.getMessage().contains("address"));
     }
@@ -65,14 +70,18 @@ class PresenterAccountDetailsTest {
         String countryString = "Country";
         String postcodeString = "AB12CD";
 
+        String companyNameString = "Company Name 123";
+        String companyNumberString = "01234567";
+
         String presenterId = "9c60fa56-d5c0-4c34-8e53-000000000";
         String email = "test.fail09876542345@test.test";
         String userId = "123";
         String lang = "cy";
         PresenterAccountName NAME = new PresenterAccountName(first, second);
         PresenterAccountAddress ADDRESS = new PresenterAccountAddress(premiseString, line1String, line2String, townString, countryString, postcodeString);
+        PresenterAccountCompany COMPANY = new PresenterAccountCompany(companyNameString, companyNumberString);
 
-        presenterDetails = new PresenterAccountDetails(presenterId, userId, lang, email, NAME, ADDRESS);
+        presenterDetails = new PresenterAccountDetails(presenterId, userId, lang, email, COMPANY, NAME, ADDRESS);
 
         assertTrue(presenterDetails.toString().contains(presenterAccountAddressString));
         assertFalse(presenterDetails.toString().contains(premiseString));
@@ -85,6 +94,9 @@ class PresenterAccountDetailsTest {
         assertFalse(presenterDetails.toString().contains(townString));
         assertFalse(presenterDetails.toString().contains(countryString));
         assertFalse(presenterDetails.toString().contains(postcodeString));
+        assertFalse(presenterDetails.toString().contains(companyNameString));
+        assertFalse(presenterDetails.toString().contains(companyNumberString));
+        
     }
 
 }
