@@ -27,7 +27,7 @@ public class DetailsApiMapper implements Mapper<PresenterAccountDetailsApi, Pres
                 .withUserId(value.userId())
                 .withPresenterDetailsId(value.presenterDetailsId())
                 .withEmail(value.email())
-                .withCompany(companyMapper.map(value.companyDetails()))
+                .withCompany(companyMapper.map(value.company()))
                 .withName(nameMapper.map(value.name()))
                 .withAddress(addressMapper.map(value.address()))
                 .build();

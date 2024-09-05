@@ -19,10 +19,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountAddressApiBuilder;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountCompanyApiBuilder;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountDetailsApi;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountNameApiBuilder;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.KafkaMessageFailException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.KafkaMessageInterruptedException;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
+import uk.gov.companieshouse.presenter.account.mapper.api.AddressApiMapper;
+import uk.gov.companieshouse.presenter.account.mapper.api.CompanyApiMapper;
+import uk.gov.companieshouse.presenter.account.mapper.api.DetailsApiMapper;
+import uk.gov.companieshouse.presenter.account.mapper.api.NameApiMapper;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountCompany;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
@@ -50,12 +58,24 @@ class PresenterAccountControllerTest {
     @Mock
     KafkaProducerService kafkaProducerService;
 
+    @Mock
+    private AddressApiMapper addressMapper;
+
+    @Mock
+    private NameApiMapper nameMapper;
+
+    @Mock
+    private CompanyApiMapper companyMapper;
+
+    private DetailsApiMapper detailsApiMapper;
+
     @BeforeEach
     void setUp() {
         presenterAccountController = new PresenterAccountController(
                 presenterAccountService,
                 logger,
                 kafkaProducerService);
+        detailsApiMapper = new DetailsApiMapper(addressMapper,nameMapper,companyMapper);
     }
 
     @Test
@@ -140,7 +160,7 @@ class PresenterAccountControllerTest {
                 "userId",
                 "en",
                 "test@example.com",
-                new PresenterAccountCompany("company Name", "00006400"),
+                new PresenterAccountCompany("company Name", null),
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",
                         "addressLine1",
@@ -148,21 +168,23 @@ class PresenterAccountControllerTest {
                         "townOrCity",
                         "country",
                         "postcode"));
-        Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.of(presenterAccountDetails);
+        var result = detailsApiMapper.map(presenterAccountDetails);
+
+        Optional<PresenterAccountDetailsApi> optionalPresenterAccountDetails = Optional.of(result);
 
         when(presenterAccountService.getPresenterAccount(id)).thenReturn(optionalPresenterAccountDetails);
 
         var response = presenterAccountController.getPresenterAccount(id);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-        assertThat(response.getBody(), is(presenterAccountDetails));
+        assertThat(response.getBody(), is(optionalPresenterAccountDetails.get()));
     }
 
     @Test
     @DisplayName("Return 404 when presenter account is not found")
     void testGetPresenterAccountNotFoundResponse() {
         final String id = "id";
-        Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.empty();
+        Optional<PresenterAccountDetailsApi> optionalPresenterAccountDetails = Optional.empty();
 
         when(presenterAccountService.getPresenterAccount(id)).thenReturn(optionalPresenterAccountDetails);
 
