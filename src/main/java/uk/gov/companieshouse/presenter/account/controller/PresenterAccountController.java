@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountDetailsApi;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
-import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.request.PresenterAccountDetailsRequest;
 import uk.gov.companieshouse.presenter.account.service.KafkaProducerService;
 import uk.gov.companieshouse.presenter.account.service.PresenterAccountService;
@@ -53,9 +53,9 @@ public class PresenterAccountController {
     }
 
     @GetMapping("/{presenterDetailsId}")
-    public ResponseEntity<PresenterAccountDetails> getPresenterAccount(
+    public ResponseEntity<PresenterAccountDetailsApi> getPresenterAccount(
             @PathVariable("presenterDetailsId") final String presenterDetailsId) {
-        final Optional<PresenterAccountDetails> presenterAccountDetailsOptional = presenterAccountService
+        final Optional<PresenterAccountDetailsApi> presenterAccountDetailsOptional = presenterAccountService
                 .getPresenterAccount(presenterDetailsId);
         return presenterAccountDetailsOptional
                 .map(presenterAccountDetails -> ResponseEntity.ok().body(presenterAccountDetails))

@@ -18,10 +18,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountAddressApiBuilder;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountCompanyApiBuilder;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountDetailsApi;
+import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountNameApiBuilder;
 import uk.gov.companieshouse.logging.Logger;
+import uk.gov.companieshouse.presenter.account.mapper.api.AddressApiMapper;
+import uk.gov.companieshouse.presenter.account.mapper.api.CompanyApiMapper;
+import uk.gov.companieshouse.presenter.account.mapper.api.DetailsApiMapper;
+import uk.gov.companieshouse.presenter.account.mapper.api.NameApiMapper;
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountAddressMapper;
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountDetailsMapper;
 import uk.gov.companieshouse.presenter.account.mapper.request.PresenterAccountNameMapper;
+import uk.gov.companieshouse.presenter.account.mapper.response.DetailsApiTransformer;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountAddress;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountCompany;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
@@ -67,10 +76,25 @@ class PresenterAccountServiceTest {
     @Mock
     IdGenerator idGenerator;
 
+    @Mock
+    DetailsApiTransformer detailsApiTransformer;
+
+    @Mock
+    private AddressApiMapper addressApiMapper;
+
+    @Mock
+    private NameApiMapper nameApiMapper;
+
+    @Mock
+    private CompanyApiMapper companyApiMapper;
+
+    private DetailsApiMapper detailsApiMapper;
+
     @BeforeEach
     void setUp() {
         presenterAccountService = new PresenterAccountService(logger, detailsMapper, presenterAccountRepository,
-                idGenerator);
+                idGenerator,detailsApiTransformer);
+        detailsApiMapper = new DetailsApiMapper(addressApiMapper,nameApiMapper,companyApiMapper);
     }
 
     @Test
@@ -95,7 +119,7 @@ class PresenterAccountServiceTest {
                 "userId",
                 "en",
                 "test@example.com",
-                new PresenterAccountCompany("Company Name 123", "12345678"),
+                new PresenterAccountCompany("Company Name 123", null),
                 new PresenterAccountName("forename", "surname"),
                 new PresenterAccountAddress("premises",
                         "addressLine1",
@@ -104,12 +128,15 @@ class PresenterAccountServiceTest {
                         "country",
                         "postcode"));
 
-        when(presenterAccountRepository.findById(presenterDetailsId)).thenReturn(Optional.of(accountDetails));
+        var accountDetailsApi = detailsApiMapper.map(accountDetails);
 
-        Optional<PresenterAccountDetails> result = presenterAccountService.getPresenterAccount(presenterDetailsId);
+        when(presenterAccountRepository.findById(presenterDetailsId)).thenReturn(Optional.of(accountDetails));
+        when(detailsApiTransformer.responseTransformer(Optional.of(accountDetails))).thenReturn(Optional.of(accountDetailsApi));
+
+        Optional<PresenterAccountDetailsApi> result = presenterAccountService.getPresenterAccount(presenterDetailsId);
 
         assertTrue(result.isPresent());
-        assertEquals(accountDetails, result.get());
+        assertEquals(accountDetailsApi, result.get());
         verify(presenterAccountRepository, times(1)).findById(presenterDetailsId);
     }
 
