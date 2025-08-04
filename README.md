@@ -22,7 +22,3 @@ These instructions are for a local docker environment.
 
 The full path for each public endpoints:
 `${API_URL}/presenter-account/`
-
-Method    | Path                                                          | Description
-:---------|:--------------------------------------------------------------|:-----------
-**GET**   | `/healthcheck`                                                | Returns `HTTPS.OK` which means api is up and runing
