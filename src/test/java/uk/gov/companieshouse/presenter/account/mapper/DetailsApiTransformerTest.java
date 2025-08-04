@@ -1,5 +1,11 @@
 package uk.gov.companieshouse.presenter.account.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import uk.gov.companieshouse.api.model.presenteraccount.PresenterAccountDetailsApi;
@@ -9,17 +15,9 @@ import uk.gov.companieshouse.presenter.account.model.PresenterAccountCompany;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountDetails;
 import uk.gov.companieshouse.presenter.account.model.PresenterAccountName;
 
-import java.util.Optional;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-public class DetailsApiTransformerTest {
+class DetailsApiTransformerTest {
 
     private PresenterAccountDetails presenterAccountDetails;
-    private PresenterAccountDetailsApi presenterAccountDetailsApi;
     private DetailsApiTransformer detailsApiTransformer;
 
     @BeforeEach
@@ -44,18 +42,23 @@ public class DetailsApiTransformerTest {
     }
 
     @Test
-    public void testResponseTransformer(){
-        Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.of(presenterAccountDetails);
-        Optional<PresenterAccountDetailsApi> PresenterAccountDetailsApiOptional = detailsApiTransformer.responseTransformer(optionalPresenterAccountDetails);
+    void testResponseTransformer() {
+        Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.of(
+                presenterAccountDetails);
+        Optional<PresenterAccountDetailsApi> PresenterAccountDetailsApiOptional = detailsApiTransformer.responseTransformer(
+                optionalPresenterAccountDetails);
         assertTrue(PresenterAccountDetailsApiOptional.isPresent());
-        assertEquals(presenterAccountDetails.presenterDetailsId(), PresenterAccountDetailsApiOptional.get().getPresenterDetailsId());
+        assertEquals(presenterAccountDetails.presenterDetailsId(),
+                PresenterAccountDetailsApiOptional.get().getPresenterDetailsId());
         assertNull(PresenterAccountDetailsApiOptional.get().getCompany().getCompanyNumber());
         assertNull(PresenterAccountDetailsApiOptional.get().getUserId());
     }
+
     @Test
-    public void testResponseTransformerWhenResponseIsEmpty(){
+    void testResponseTransformerWhenResponseIsEmpty() {
         Optional<PresenterAccountDetails> optionalPresenterAccountDetails = Optional.empty();
-        Optional<PresenterAccountDetailsApi> PresenterAccountDetailsApiOptional = detailsApiTransformer.responseTransformer(optionalPresenterAccountDetails);
+        Optional<PresenterAccountDetailsApi> PresenterAccountDetailsApiOptional = detailsApiTransformer.responseTransformer(
+                optionalPresenterAccountDetails);
         assertFalse(PresenterAccountDetailsApiOptional.isPresent());
     }
 }
