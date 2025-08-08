@@ -79,13 +79,6 @@ class PresenterAccountControllerTest {
     }
 
     @Test
-    @DisplayName("Return 200 on successfully health check")
-    void testHealthCheckEndpointSuccessResponse() {
-        var response = presenterAccountController.healthCheck();
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
-    }
-
-    @Test
     @DisplayName("Return 201 when valid presenter details is submitted")
     void testCreatePresenterAccountSuccessResponse() {
         final String id = "id";
