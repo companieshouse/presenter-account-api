@@ -1,22 +1,21 @@
 package uk.gov.companieshouse.presenter.account.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import uk.gov.companieshouse.presenter.account.exceptionhandler.ValidationException;
 
 class PresenterAccountNameTest {
 
-    private final static String FIRST_NAME = "test";
-    private final static String LAST_NAME = "last";
-    private final static String TOO_LONG_NAME = "a".repeat(41);
-    private final static String INVALID_CHARACTOR_NAME = "Badname~";
+    private static final String FIRST_NAME = "test";
+    private static final String LAST_NAME = "last";
+    private static final String TOO_LONG_NAME = "a".repeat(41);
+    private static final String INVALID_CHARACTER_NAME = "Badname~";
 
     PresenterAccountName name;
 
@@ -58,10 +57,10 @@ class PresenterAccountNameTest {
     @DisplayName("Throw ValidationException by creating an invalid name with invalid characters names")
     void testInvalidPresenterNameWithInvalidCharacterFirstOrSurname() {
         Exception firstNameException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountName(INVALID_CHARACTOR_NAME, LAST_NAME);
+            new PresenterAccountName(INVALID_CHARACTER_NAME, LAST_NAME);
         });
         Exception surnameException = assertThrows(ValidationException.class, () -> {
-            new PresenterAccountName(FIRST_NAME, INVALID_CHARACTOR_NAME);
+            new PresenterAccountName(FIRST_NAME, INVALID_CHARACTER_NAME);
         });
         assertTrue(firstNameException.getMessage().contains("Name"));
         assertTrue(surnameException.getMessage().contains("Name"));
@@ -83,11 +82,12 @@ class PresenterAccountNameTest {
         String firstString = "Safe";
         String lastString = "Last";
 
-        PresenterAccountName presenterAccountName = new PresenterAccountName(firstString, lastString);
+        PresenterAccountName presenterAccountName = new PresenterAccountName(firstString,
+                lastString);
 
         String presenterAccountNameString = presenterAccountName.toString();
-        assertTrue(presenterAccountNameString.toString().contains("PresenterName"));
-        assertFalse(presenterAccountNameString.toString().contains(firstString));
-        assertFalse(presenterAccountNameString.toString().contains(lastString));
+        assertTrue(presenterAccountNameString.contains("PresenterName"));
+        assertFalse(presenterAccountNameString.contains(firstString));
+        assertFalse(presenterAccountNameString.contains(lastString));
     }
 }

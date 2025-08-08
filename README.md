@@ -12,10 +12,9 @@ In order to run the service locally you will need the following:
 ### Getting started
 To checkout and build the service:
 1. Clone [Docker CHS Development](https://github.com/companieshouse/docker-chs-development) and follow the steps in the README.
-2. Run `./bin/chs-dev` modules enable `presenter-account-api`
-3. Run `./bin/chs-dev` development enable `presenter-account-api`
-4. Run docker using `"tilt up"` in the `docker-chs-development` directory.
-5. Use spacebar in the command line to open tilt window - wait for `presenter-account-api` to become green.
+2. Run `chs-dev modules enable presenter-account-api`
+3. Run either `chs-dev development enable presenter-account-api` or use the jib plugin to replace your local image
+4. Run docker using `chs-dev up` in the `docker-chs-development` directory.
 
 These instructions are for a local docker environment.
 
@@ -23,6 +22,7 @@ These instructions are for a local docker environment.
 
 The full path for each public endpoints:
 `${API_URL}/presenter-account/`
+
 
 Method    | Path                                                          | Description
 :---------|:--------------------------------------------------------------|:-----------
@@ -59,3 +59,4 @@ Application specific attributes | Value                                | Descrip
 ### Useful Links
 - [ECS service config dev repository](https://github.com/companieshouse/ecs-service-configs-dev)
 - [ECS service config production repository](https://github.com/companieshouse/ecs-service-configs-production)
+
