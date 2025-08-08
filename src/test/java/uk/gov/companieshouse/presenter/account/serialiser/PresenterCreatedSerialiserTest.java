@@ -1,11 +1,10 @@
 package uk.gov.companieshouse.presenter.account.serialiser;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import uk.gov.companieshouse.presenter_account.PresenterCreated;
 
 class PresenterCreatedSerialiserTest {
@@ -25,6 +24,6 @@ class PresenterCreatedSerialiserTest {
         PresenterCreated presenterCreated = new PresenterCreated();
         presenterCreated.setId(id);
         byte[] serialisedPresenterCreaded = presenterCreatedSerialiser.serialize(presenterCreated);
-        assertTrue(serialisedPresenterCreaded instanceof byte[]);
+        assertInstanceOf(byte[].class, serialisedPresenterCreaded);
     }
 }

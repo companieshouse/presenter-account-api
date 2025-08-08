@@ -8,7 +8,7 @@ locals {
   docker_repo                = "presenter-account-api"
   lb_listener_rule_priority  = 11
   lb_listener_paths          = ["/presenter-account/*"]
-  healthcheck_path           = "/presenter-account/healthcheck" #healthcheck path for presenter-account-api
+  healthcheck_path           = "/presenter-account-api/healthcheck" #healthcheck path for presenter-account-api
   healthcheck_matcher        = "200"
   application_subnet_ids     = data.aws_subnets.application.ids
   kms_alias                  = "alias/${var.aws_profile}/environment-services-kms"

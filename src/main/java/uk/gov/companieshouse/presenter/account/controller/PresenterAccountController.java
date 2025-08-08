@@ -38,11 +38,6 @@ public class PresenterAccountController {
         this.kafkaProducerService = kafkaProducerService;
     }
 
-    @GetMapping("/healthcheck")
-    public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok().body("OK");
-    }
-
     @PostMapping("/")
     public ResponseEntity<String> createPresenterAccount(
             @RequestBody final PresenterAccountDetailsRequest presenterAccountDetailsRequest) {
