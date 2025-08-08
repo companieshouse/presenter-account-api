@@ -26,7 +26,7 @@ The full path for each public endpoints:
 
 Method    | Path                                                          | Description
 :---------|:--------------------------------------------------------------|:-----------
-**GET**   | `/healthcheck`                                                | Returns `HTTPS.OK` which means api is up and runing
+**GET**   | `/presenter-account-api/healthcheck`                 | Returns `HTTPS.OK` which means api is up and runing
 
 
 
