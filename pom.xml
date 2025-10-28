@@ -48,7 +48,7 @@
         <kafka-models.version>3.0.19</kafka-models.version>
 
         <!--Overrides-->
-        <tomcat-embed-override.version>10.1.43</tomcat-embed-override.version>
+        <tomcat-embed-override.version>10.1.47</tomcat-embed-override.version>
         <commons-lang3-override.version>3.18.0</commons-lang3-override.version>
 
         <!--sonar configuration-->
