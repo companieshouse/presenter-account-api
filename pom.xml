@@ -49,7 +49,6 @@
 
         <!--sonar configuration-->
         <sonar.projectName>presenter-account-api</sonar.projectName>
-        <sonar.host.url>${CODE_ANALYSIS_HOST_URL}</sonar.host.url>
         <sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
         <sonar.login/>
         <sonar.password/>
