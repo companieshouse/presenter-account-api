@@ -101,26 +101,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--Added to override version from spring starter web-->
-        <!--CVE-2025-52520(7.5), CVE-2025-53506(7.5)-->
-        <!--Please review Springboot version or springboot-web version-->
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>${tomcat-embed-override.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-websocket</artifactId>
-            <version>${tomcat-embed-override.version}</version>
-        </dependency>
-
-        <!-- CVE-2025-48924 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3-override.version}</version>
-        </dependency>
 
         <!-- spring boot apis support libs starts-->
         <dependency>
