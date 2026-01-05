@@ -49,11 +49,18 @@
 
         <!--sonar configuration-->
         <sonar.projectName>presenter-account-api</sonar.projectName>
-        <!--suppress UnresolvedMavenProperty -->
+        <sonar.host.url>${CODE_ANALYSIS_HOST_URL}</sonar.host.url>
         <sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
         <sonar.login/>
         <sonar.password/>
         <sonar.projectKey>uk.gov.companieshouse:presenter-account-api</sonar.projectKey>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.sources>src/main</sonar.sources>
+        <sonar.tests>src/test</sonar.tests>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.build.directory}/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.jacoco.reports>${project.build.directory}/site</sonar.jacoco.reports>
     </properties>
     <profiles>
         <profile>
@@ -275,6 +282,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
+                <configuration>
+                    <append>true</append>
+                    <destFile>${sonar.jacoco.reports}/jacoco.exec</destFile>
+                    <dataFile>${sonar.jacoco.reports}/jacoco.exec</dataFile>
+                    <outputDirectory>${sonar.jacoco.reports}/jacoco</outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
