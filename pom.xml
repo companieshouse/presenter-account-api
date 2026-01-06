@@ -103,14 +103,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Temp dependencies please check if still required at pom update -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-ee</artifactId>
-            <version>12.0.31</version>
-        </dependency>
-
-        <!-- End of Temp dependencies -->
 
         <!-- spring boot apis support libs starts-->
         <dependency>
