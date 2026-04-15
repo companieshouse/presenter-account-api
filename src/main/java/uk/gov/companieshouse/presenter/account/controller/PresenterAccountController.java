@@ -59,7 +59,7 @@ public class PresenterAccountController {
 
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<String> validationException(final ValidationException e) {
-        return ResponseEntity.badRequest().body("Validation failed.");
+        return ResponseEntity.badRequest().body(e.getMessage() != null ? e.getMessage() : "Validation failed.");
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
