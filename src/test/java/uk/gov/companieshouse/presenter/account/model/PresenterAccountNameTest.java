@@ -28,7 +28,7 @@ class PresenterAccountNameTest {
     }
 
     @Test
-    @DisplayName("Throw ValidationException by creating an invalid present name with empty names")
+    @DisplayName("Throw ValidationException by creating an invalid presenter name with empty names")
     void testInvalidPresenterNameWithoutFirstOrSurname() {
         Exception firstNameException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountName("", LAST_NAME);
@@ -36,12 +36,25 @@ class PresenterAccountNameTest {
         Exception surnameException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountName(FIRST_NAME, "");
         });
-        assertTrue(firstNameException.getMessage().contains("Name"));
-        assertTrue(surnameException.getMessage().contains("Name"));
+        assertTrue(firstNameException.getMessage().contains("forename"));
+        assertTrue(surnameException.getMessage().contains("surname"));
     }
 
     @Test
-    @DisplayName("Throw ValidationException by creating an invalid name with too long names")
+    @DisplayName("Throw ValidationException by creating an invalid presenter name with null names")
+    void testInvalidPresenterNameWithNullFirstOrSurname() {
+        Exception firstNameException = assertThrows(ValidationException.class, () -> {
+            new PresenterAccountName(null, LAST_NAME);
+        });
+        Exception surnameException = assertThrows(ValidationException.class, () -> {
+            new PresenterAccountName(FIRST_NAME, null);
+        });
+        assertTrue(firstNameException.getMessage().contains("forename"));
+        assertTrue(surnameException.getMessage().contains("surname"));
+    }
+
+    @Test
+    @DisplayName("Throw ValidationException by creating an invalid presenter with too long names")
     void testInvalidPresenterNameWithTooLongFirstOrSurname() {
         Exception firstNameException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountName(TOO_LONG_NAME, LAST_NAME);
@@ -49,12 +62,12 @@ class PresenterAccountNameTest {
         Exception surnameException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountName(FIRST_NAME, TOO_LONG_NAME);
         });
-        assertTrue(firstNameException.getMessage().contains("Name"));
-        assertTrue(surnameException.getMessage().contains("Name"));
+        assertTrue(firstNameException.getMessage().contains("forename"));
+        assertTrue(surnameException.getMessage().contains("surname"));
     }
 
     @Test
-    @DisplayName("Throw ValidationException by creating an invalid name with invalid characters names")
+    @DisplayName("Throw ValidationException by creating an invalid presenter with invalid characters names")
     void testInvalidPresenterNameWithInvalidCharacterFirstOrSurname() {
         Exception firstNameException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountName(INVALID_CHARACTER_NAME, LAST_NAME);
@@ -62,18 +75,8 @@ class PresenterAccountNameTest {
         Exception surnameException = assertThrows(ValidationException.class, () -> {
             new PresenterAccountName(FIRST_NAME, INVALID_CHARACTER_NAME);
         });
-        assertTrue(firstNameException.getMessage().contains("Name"));
-        assertTrue(surnameException.getMessage().contains("Name"));
-    }
-
-    @Test
-    @DisplayName("Allows for null forename and surname in PresenterAccountName")
-    void testAllowsForNullForenameAndSurname() {
-        try {
-            new PresenterAccountName(null, null);
-        } catch (Exception e) {
-            fail("Creation of PresenterAccountName should not fail with null forename and surname");
-        }
+        assertTrue(firstNameException.getMessage().contains("forename"));
+        assertTrue(surnameException.getMessage().contains("surname"));
     }
 
     @Test
