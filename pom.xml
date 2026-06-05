@@ -40,7 +40,7 @@
         <opentelemetry-instrumentation-bom.version>2.26.1</opentelemetry-instrumentation-bom.version>
 
         <!-- internal -->
-        <structured-logging.version>3.0.37</structured-logging.version>
+        <structured-logging.version>3.0.56</structured-logging.version>
         <api-security-java-version>2.0.11</api-security-java-version>
         <api-sdk-manager-java-library.version>3.0.19</api-sdk-manager-java-library.version>
         <private-api-sdk-java.version>4.0.493</private-api-sdk-java.version>
@@ -78,11 +78,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-              <groupId>io.opentelemetry.instrumentation</groupId>
-              <artifactId>opentelemetry-instrumentation-bom</artifactId>
-              <version>${opentelemetry-instrumentation-bom.version}</version>
-              <type>pom</type>
-              <scope>import</scope>
+                <groupId>io.opentelemetry.instrumentation</groupId>
+                <artifactId>opentelemetry-instrumentation-bom</artifactId>
+                <version>${opentelemetry-instrumentation-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -145,15 +145,21 @@
         <!-- spring boot apis support libs starts-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-opentelemetry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+            <version>2.26.1-alpha</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>io.opentelemetry.instrumentation</groupId>
-          <artifactId>opentelemetry-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
